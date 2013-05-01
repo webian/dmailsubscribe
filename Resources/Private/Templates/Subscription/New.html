@@ -1,0 +1,46 @@
+<f:flashMessages />
+
+<f:form method="post" action="subscribe" name="subscription" object="{subscription}">
+    <label for="gender">Title{f:if(condition: '{requiredFields.gender}', then: '*')}</label>
+    <f:form.select id="gender" property="gender" options="{m: 'Mr.', f: 'Mrs.'}"/>
+
+    <label for="name">Name{f:if(condition: '{requiredFields.name}', then: '*')}</label>
+    <f:form.textfield id="name" property="name" />
+    <f:form.validationResults for="subscription.name">
+        <f:for each="{validationResults.flattenedErrors}" as="error">
+            <div class="error">{error.0.message}</div>
+        </f:for>
+    </f:form.validationResults>
+
+    <label for="name">Company{f:if(condition: '{requiredFields.company}', then: '*')}</label>
+    <f:form.textfield id="name" property="company" />
+    <f:form.validationResults for="subscription.company">
+        <f:for each="{validationResults.flattenedErrors}" as="error">
+            <div class="error">{error.0.message}</div>
+        </f:for>
+    </f:form.validationResults>
+
+    <label for="email">E-Mail*</label>
+    <f:form.textfield id="email" property="email" />
+    <f:form.validationResults for="subscription.email">
+        <f:for each="{validationResults.flattenedErrors}" as="error">
+            <div class="error">{error.0.message}</div>
+        </f:for>
+    </f:form.validationResults>
+
+	<label for="receiveHtml">HTML Newsletter</label>
+	<f:form.checkbox id="receiveHtml" property="receiveHtml" value="1" checked="{subscription.receiveHtml}" />
+
+	<f:if condition="{categories}">
+        <label>Categories</label>
+        <f:for each="{categories}" as="category">
+            <f:form.checkbox id="category_{category.uid}" name="categories[{category.uid}]" value="{category.uid}" checked="{category.checked}" /> {category.title}
+        </f:for>
+        <f:form.validationResults for="subscription.categories">
+            <f:for each="{validationResults.flattenedErrors}" as="error">
+                <div class="error">{error.0.message}</div>
+            </f:for>
+        </f:form.validationResults>
+    </f:if>
+    <f:form.submit name="submit" value="Subscribe" />
+</f:form>

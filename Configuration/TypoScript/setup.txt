@@ -1,0 +1,46 @@
+plugin.tx_dmailsubscribe {
+	view {
+		templateRootPath = {$plugin.tx_dmailsubscribe.view.templateRootPath}
+		partialRootPath = {$plugin.tx_dmailsubscribe.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_dmailsubscribe.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_dmailsubscribe.persistence.storagePid}
+		classes {
+			Tx_Dmailsubscribe_Domain_Model_Subscription {
+				mapping {
+					tableName = tt_address
+					columns {
+						name.mapOnProperty = name
+						company.mapOnProperty = company
+						email.mapOnProperty = email
+						gender.mapOnProperty = gender
+						module_sys_dmail_html.mapOnProperty = receiveHtml
+						module_sys_dmail_category.mapOnProperty = categories
+					}
+				}
+			}
+			Tx_Dmailsubscribe_Domain_Model_Category {
+				mapping {
+					tableName = sys_dmail_category
+					columns {
+						category.mapOnProperty = title
+					}
+				}
+			}
+		}
+	}
+	settings {
+        additionalFields = gender, name, company
+        requiredFields = gender, name
+        muteConfirmationErrors = 1
+        muteUnsubscribeErrors = 1
+        lookupPids =
+        categoryPids =
+        fromEmail =
+        fromName =
+        subject =
+        pluginPageUid =
+	}
+	features.rewrittenPropertyMapper = 1
+}

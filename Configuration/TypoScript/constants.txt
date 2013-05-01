@@ -1,0 +1,14 @@
+plugin.tx_dmailsubscribe {
+	view {
+		# cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:dmailsubscribe/Resources/Private/Templates/
+		# cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:dmailsubscribe/Resources/Private/Partials/
+		# cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:dmailsubscribe/Resources/Private/Layouts/
+	}
+	persistence {
+		# cat=plugin.tx_dmailsubscribe//a; type=string; label=Default storage PID
+		storagePid =
+	}
+}
