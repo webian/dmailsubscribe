@@ -25,7 +25,7 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
 
 	/**
 	 * @var string
-	 * @validate emailAddress
+	 * @validate EmailAddress
 	 */
 	protected $email;
 
