@@ -45,6 +45,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 
 	/**
 	 * @param Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository
+	 * @return void
 	 */
 	public function injectCategoryRepository(Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository) {
 		$this->categoryRepository = $repository;
@@ -52,6 +53,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 
 	/**
 	 * @param Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository
+	 * @return void
 	 */
 	public function injectSubscriptionRepository(Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository) {
 		$this->subscriptionRepository = $repository;
