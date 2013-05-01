@@ -31,16 +31,16 @@ plugin.tx_dmailsubscribe {
 		}
 	}
 	settings {
-		additionalFields = gender, name, company
-		requiredFields = gender, name
-		muteConfirmationErrors = 1
-		muteUnsubscribeErrors = 1
-		lookupPids =
-		categoryPids =
-		fromEmail =
-		fromName =
-		subject =
-		pluginPageUid =
+		additionalFields = {$plugin.tx_dmailsubscribe.settings.additionalFields}
+		requiredFields = {$plugin.tx_dmailsubscribe.settings.requiredFields}
+		muteConfirmationErrors = {$plugin.tx_dmailsubscribe.settings.muteConfirmationErrors}
+		muteUnsubscribeErrors = {$plugin.tx_dmailsubscribe.settings.muteUnsubscribeErrors}
+		lookupPids = {$plugin.tx_dmailsubscribe.settings.lookupPids}
+		categoryPids = {$plugin.tx_dmailsubscribe.settings.categoryPids}
+		fromEmail = {$plugin.tx_dmailsubscribe.settings.fromEmail}
+		fromName = {$plugin.tx_dmailsubscribe.settings.fromName}
+		subject = {$plugin.tx_dmailsubscribe.settings.subject}
+		pluginPageUid = {$plugin.tx_dmailsubscribe.settings.pluginPageUid}
 	}
 	features.rewrittenPropertyMapper = 1
 }
