@@ -21,6 +21,16 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Validator: Subscription object validation wrapper
+ *
+ * Validates an entire Subscription instance using various other
+ * Validators as configured in TypoScript.
+ *
+ * @package Dmailsubscribe
+ * @subpackage Validator
+ */
 class Tx_Dmailsubscribe_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator {
 
 	/**

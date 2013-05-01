@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Unsubscribtion URI generating VieWHelper
+ *
+ * Generates an URI to the "unsubscribe" action.
+ *
+ * @package Dmailsubscribe
+ * @subpackage ViewHelpers\Uri
+ */
 class Tx_Dmailsubscribe_ViewHelpers_Uri_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper {
 
 	/**

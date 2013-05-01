@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper
+ *
+ * Base class for uri-generating ViewHelpers
+ *
+ * @package Dmailsubscribe
+ * @subpackage ViewHelpers
+ */
 abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fluid_ViewHelpers_Uri_ActionViewHelper {
 
 	/**

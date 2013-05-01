@@ -21,6 +21,16 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Subscription Controller
+ *
+ * Handles the Subscription model object, making new
+ * Subscriptions, unsubscribing, confirming etc.
+ *
+ * @package Dmailsubscribe
+ * @subpackage Controller
+ */
 class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**

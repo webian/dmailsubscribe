@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Validator: Email must not be registered
+ *
+ * Returns FALSE as validation result if email is already registered.
+ *
+ * @package Dmailsubscribe
+ * @subpackage Validator
+ */
 class Tx_Dmailsubscribe_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
 
 	/**

@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Confirmation link generating VieWHelper
+ *
+ * Generates a link to the "confirm" action.
+ *
+ * @package Dmailsubscribe
+ * @subpackage ViewHelpers\Uri
+ */
 class Tx_Dmailsubscribe_ViewHelpers_Link_ConfirmViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper {
 
 	/**
