@@ -165,7 +165,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 		}
 
 		/** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
-		if (NULL === ($subscription = $this->subscriptionRepository->findOneByUid($subscriptionUid))) {
+		if (NULL === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid))) {
 			if (FALSE === $muteConfirmationErrors) {
 				$message = Tx_Extbase_Utility_Localization::translate('message.confirm.subscription_not_found', $this->extensionName);
 				$this->flashMessageContainer->add($message);
@@ -239,7 +239,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	/**
 	 * Override parent method to disable output of
 	 * controller errors as flash messages
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function getErrorFlashMessage() {
