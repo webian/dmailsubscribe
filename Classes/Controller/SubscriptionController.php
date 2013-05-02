@@ -236,4 +236,13 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 		return $confirmationCodeForUid === $confirmationCode;
 	}
 
+	/**
+	 * Override parent method to disable output of
+	 * controller errors as flash messages
+	 * 
+	 * @return boolean
+	 */
+	public function getErrorFlashMessage() {
+		return FALSE;
+	}
 }
