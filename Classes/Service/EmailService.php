@@ -69,7 +69,6 @@ class Tx_Dmailsubscribe_Service_EmailService {
 	 */
 	public function send($toEmail, $toName, $templateName, $html = TRUE, array $variables = array()) {
 		$charset = $this->settingsService->getSetting('charset', 'utf-8');
-
 		$subject = $this->settingsService('subject', 'Newsletter Subsciption');
 
 		if (NULL === ($fromEmail = $this->settingsService->get('fromEmail'))) {
@@ -117,7 +116,7 @@ class Tx_Dmailsubscribe_Service_EmailService {
 	 * @return Tx_Fluid_View_StandaloneView
 	 */
 	protected function getView($templateName, $format = 'html') {
-		/** @var Tx_Fluid_View_StandaloneView $emailView */
+		/** @var Tx_Fluid_View_StandaloneView $view */
 		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
 		$view->setFormat($format);
 		$view->getRequest()->setControllerExtensionName('Dmailsubscribe');

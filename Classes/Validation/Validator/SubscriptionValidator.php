@@ -67,7 +67,6 @@ class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Ex
 	 * @param mixed $object
 	 * @throws Tx_Extbase_Validation_Exception_InvalidSubject
 	 * @return Tx_Extbase_Error_Result
-	 * @api
 	 */
 	public function validate($object) {
 		if (FALSE === $this->canValidate($object)) {
@@ -75,13 +74,14 @@ class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Ex
 		}
 
 		$requiredFields = $this->settingsService->getSetting('requiredFields', array(), ',');
-
 		$lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
 
+		/** @var Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator $emailNotRegisteredValidator */
 		$emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
 		$this->addPropertyValidator('email', $emailNotRegisteredValidator);
 
 		foreach ($requiredFields as $field) {
+			/** @var Tx_Extbase_Validation_Validator_NotEmptyValidator $notEmptyValidator */
 			$notEmptyValidator = $this->objectManager->get('Tx_Extbase_Validation_Validator_NotEmptyValidator');
 			$this->addPropertyValidator($field, $notEmptyValidator);
 		}
