@@ -70,6 +70,11 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			$categoryPids = t3lib_div::trimExplode(',', $this->settings['categoryPids']);
 		}
 
+		$additionalFields = array();
+		if (TRUE === isset($this->settings['additionalFields']) && '' !== $this->settings['additionalFields']) {
+			$additionalFields  = array_fill_keys(t3lib_div::trimExplode(',', $this->settings['additionalFields']), TRUE);
+		}
+
 		$requiredFields = array();
 		if (TRUE === isset($this->settings['requiredFields']) && '' !== $this->settings['requiredFields']) {
 			$requiredFields  = array_fill_keys(t3lib_div::trimExplode(',', $this->settings['requiredFields']), TRUE);

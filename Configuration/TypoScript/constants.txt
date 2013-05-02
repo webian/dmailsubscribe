@@ -13,7 +13,7 @@ plugin.tx_dmailsubscribe {
 	}
 	settings {
 		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Additional fields to display in form
-		additionalFields = gender, name, company
+		additionalFields = gender, name, company, receiveHtml, categories
 		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Fields which are required to be filled
 		requiredFields = gender, name
 		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute confirmation message sending errors
