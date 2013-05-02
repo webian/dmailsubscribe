@@ -6,13 +6,20 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-            <label index="message.subscribe.success">You have been subscribed to the newsletter. A confirmation email has been sent.</label>
-            <label index="message.confirm.confirmation_code_invalid">The provided confirmation code is invalid.</label>
-            <label index="message.confirm.subscription_not_found">This subscription could not be found or is already confirmed.</label>
-            <label index="message.confirm.success">Your subscription has been confirmed.</label>
-            <label index="message.unsubscribe.confirmation_code_invalid">The provided confirmation code is invalid.</label>
-            <label index="message.unsubscribe.subscription_not_found">This subscription could not be found or is already confirmed.</label>
-            <label index="message.unsubscribe.success">You have been successfully unsubscribed from our newsletter.</label>
+			<label index="label.gender">Title</label>
+			<label index="label.name">Name</label>
+			<label index="label.company">Company</label>
+			<label index="label.email">Email</label>
+			<label index="label.receiveHtml">HTML emails</label>
+			<label index="label.categories">Categories</label>
+			<label index="label.subscribe">Subscribe</label>
+			<label index="message.subscribe.success">You have been subscribed to the newsletter. A confirmation email has been sent.</label>
+			<label index="message.confirm.confirmation_code_invalid">The provided confirmation code is invalid.</label>
+			<label index="message.confirm.subscription_not_found">This subscription could not be found or is already confirmed.</label>
+			<label index="message.confirm.success">Your subscription has been confirmed.</label>
+			<label index="message.unsubscribe.confirmation_code_invalid">The provided confirmation code is invalid.</label>
+			<label index="message.unsubscribe.subscription_not_found">This subscription could not be found or is already confirmed.</label>
+			<label index="message.unsubscribe.success">You have been successfully unsubscribed from our newsletter.</label>
 		</languageKey>
 	</data>
 </T3locallang>
