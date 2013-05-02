@@ -80,12 +80,14 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			$requiredFields  = array_fill_keys(t3lib_div::trimExplode(',', $this->settings['requiredFields']), TRUE);
 		}
 
+		$selectedCategories = array();
 		if (NULL === ($originalRequest = $this->request->getOriginalRequest())) {
 			$subscription = $this->objectManager->create('Tx_Dmailsubscribe_Domain_Model_Subscription');
-			$selectedCategories = array();
 		} else {
 			$subscription = $originalRequest->getArgument('subscription');
-			$selectedCategories = $originalRequest->getArgument('categories');
+			if ($originalRequest->hasArgument('categories')) {
+				$selectedCategories = $originalRequest->getArgument('categories');
+			}
 		}
 
 		$selectableCategories = $this->categoryRepository->findAllInPids($categoryPids);
