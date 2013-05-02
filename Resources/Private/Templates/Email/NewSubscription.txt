@@ -5,7 +5,7 @@
 <f:section name="Main">
 Success
 
-You have been subscribed to our newsletter. Please klick the following link
+You have been subscribed to our newsletter. Please click the following link
 to confirm your subscription:  <d:uri.confirm subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}" />
 
 To unscubscribe from our newsletter click the following link: <d:uri.unsubscribe subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}" />

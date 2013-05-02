@@ -77,13 +77,13 @@ class Tx_Dmailsubscribe_Service_EmailService {
 			throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
 		}
 
-		$htmlView = $this->getView($templateName . 'Html');
+		$htmlView = $this->getView($templateName . 'Html', 'html');
 		$htmlView->assignMultiple($variables);
 		$htmlView->assign('charset', $charset);
 		$htmlView->assign('title', $subject);
 		$htmlBody = $htmlView->render();
 
-		$plainView = $this->getView($templateName . 'Plain');
+		$plainView = $this->getView($templateName . 'Plain', 'txt');
 		$plainView->assignMultiple($variables);
 		$plainView->assign('charset', $charset);
 		$plainView->assign('title', $subject);
@@ -110,19 +110,20 @@ class Tx_Dmailsubscribe_Service_EmailService {
 
 	/**
 	 * @param string $templateName
+	 * @param string $format
 	 * @return Tx_Fluid_View_StandaloneView
 	 */
-	protected function getView($templateName) {
+	protected function getView($templateName, $format = 'html') {
 		/** @var Tx_Fluid_View_StandaloneView $emailView */
 		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-		$view->setFormat('html');
+		$view->setFormat($format);
 		$view->getRequest()->setControllerExtensionName('Dmailsubscribe');
 
 		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
 		$templateRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath']);
 		$layoutRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPath']);
-		$templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.html';
+		$templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.' . $format;
 
 		$view->setTemplatePathAndFilename($templatePathAndFilename);
 		$view->setLayoutRootPath($layoutRootPath);
