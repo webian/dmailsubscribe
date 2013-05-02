@@ -77,13 +77,13 @@ class Tx_Dmailsubscribe_Service_EmailService {
 			throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
 		}
 
-		$htmlView = $this->getView($templateName . 'Html', 'html');
+		$htmlView = $this->getView($templateName, 'html');
 		$htmlView->assignMultiple($variables);
 		$htmlView->assign('charset', $charset);
 		$htmlView->assign('title', $subject);
 		$htmlBody = $htmlView->render();
 
-		$plainView = $this->getView($templateName . 'Plain', 'txt');
+		$plainView = $this->getView($templateName, 'txt');
 		$plainView->assignMultiple($variables);
 		$plainView->assign('charset', $charset);
 		$plainView->assign('title', $subject);
