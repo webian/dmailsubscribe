@@ -38,11 +38,24 @@ class Tx_Dmailsubscribe_Service_EmailService {
 	protected $configurationManager;
 
 	/**
+	 * @var Tx_Dmailsubscribe_Service_SettingsService
+	 */
+	protected $settingsService;
+
+	/**
 	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
 	 * @return void
 	 */
 	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
+	}
+
+	/**
+	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+	 * @return void
+	 */
+	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
+		$this->settingsService = $settingsService;
 	}
 
 	/**
@@ -55,25 +68,15 @@ class Tx_Dmailsubscribe_Service_EmailService {
 	 * @return boolean
 	 */
 	public function send($toEmail, $toName, $templateName, $html = TRUE, array $variables = array()) {
-		$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-		$charset = 'utf-8';
-		if (TRUE === isset($settings['charset']) && (FALSE === empty($settings['charset']))) {
-			$charset = $settings['charset'];
-		}
-		$subject = 'Newsletter Subscription';
-		if (TRUE === isset($settings['subject']) && (FALSE === empty($settings['subject']))) {
-			$subject = $settings['subject'];
-		}
+		$charset = $this->settingsService->getSetting('charset', 'utf-8');
 
-		if (TRUE === isset($settings['fromEmail']) && FALSE === empty($settings['fromEmail'])) {
-			$fromEmail = $settings['fromEmail'];
-		} else {
+		$subject = $this->settingsService('subject', 'Newsletter Subsciption');
+
+		if (NULL === ($fromEmail = $this->settingsService->get('fromEmail'))) {
 			throw new Tx_Extbase_Configuration_Exception('Sender email address is not specified.');
 		}
 
-		if (TRUE === isset($settings['fromName']) && FALSE === empty($settings['fromName'])) {
-			$fromName = $settings['fromName'];
-		} else {
+		if (NULL === ($fromName = $this->settingsService->get('fromName'))) {
 			throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
 		}
 

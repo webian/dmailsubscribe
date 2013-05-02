@@ -44,6 +44,11 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	protected $subscriptionRepository;
 
 	/**
+	 * @var Tx_Dmailsubscribe_Service_SettingsService
+	 */
+	protected $settingsService;
+
+	/**
 	 * @param Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository
 	 * @return void
 	 */
@@ -60,25 +65,22 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	}
 
 	/**
+	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+	 * @return void
+	 */
+	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
+		$this->settingsService = $settingsService;
+	}
+
+	/**
 	 * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
 	 * @return void
 	 * @ignorevalidation $subscription
 	 */
 	public function newAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription = NULL) {
-		$categoryPids = array();
-		if (TRUE === isset($this->settings['categoryPids']) && '' !== $this->settings['categoryPids']) {
-			$categoryPids = t3lib_div::trimExplode(',', $this->settings['categoryPids']);
-		}
-
-		$additionalFields = array();
-		if (TRUE === isset($this->settings['additionalFields']) && '' !== $this->settings['additionalFields']) {
-			$additionalFields  = array_fill_keys(t3lib_div::trimExplode(',', $this->settings['additionalFields']), TRUE);
-		}
-
-		$requiredFields = array();
-		if (TRUE === isset($this->settings['requiredFields']) && '' !== $this->settings['requiredFields']) {
-			$requiredFields  = array_fill_keys(t3lib_div::trimExplode(',', $this->settings['requiredFields']), TRUE);
-		}
+		$categoryPids     = $this->settingsService->getSetting('categoryPids', array(), ',');
+		$additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', array(), ','), TRUE);
+		$requiredFields   = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), TRUE);
 
 		$selectedCategories = array();
 		if (NULL === ($originalRequest = $this->request->getOriginalRequest())) {
@@ -111,13 +113,10 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	 * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
 	 * @param array $categories
 	 * @return void
-	 * @validate $subscription Tx_Dmailsubscribe_Validator_SubscriptionValidator
+	 * @validate $subscription Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator
 	 */
 	public function subscribeAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription, $categories = array()) {
-		$categoryPids = array();
-		if (TRUE === isset($this->settings['categoryPids']) && '' !== $this->settings['categoryPids']) {
-			$categoryPids = t3lib_div::trimExplode(',', $this->settings['categoryPids']);
-		}
+		$categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
 
 		$selectedCategories = $this->categoryRepository->findAllByUids($categories, $categoryPids);
 		foreach ($selectedCategories as $category) {
@@ -151,11 +150,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	 * @return void
 	 */
 	public function confirmAction($subscriptionUid, $confirmationCode) {
-		if (TRUE === isset($this->settings['muteConfirmationErrors'])) {
-			$muteConfirmationErrors = (boolean) $this->settings['muteConfirmationErrors'];
-		} else {
-			$muteConfirmationErrors = TRUE;
-		}
+		$muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfigurationErrors', TRUE);
 
 		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
 			if (FALSE === $muteConfirmationErrors) {
@@ -188,11 +183,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	 * @return void
 	 */
 	public function unsubscribeAction($subscriptionUid, $confirmationCode) {
-		if (TRUE === isset($this->settings['muteUnsubscribeErrors'])) {
-			$muteUnsubscribeErrors = (boolean) $this->settings['muteUnsubscribeErrors'];
-		} else {
-			$muteUnsubscribeErrors = TRUE;
-		}
+		$muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', TRUE);
 
 		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
 			if (FALSE === $muteUnsubscribeErrors) {

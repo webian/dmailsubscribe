@@ -38,16 +38,16 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fl
 	protected $action;
 
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var Tx_Dmailsubscribe_Service_SettingsService
 	 */
-	protected $configurationManager;
+	protected $settingsService;
 
 	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
 	 * @return void
 	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
+	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
+		$this->settingsService = $settingsService;
 	}
 
 	/**
@@ -63,10 +63,7 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fl
 	 * @return string
 	 */
 	public function render() {
-		$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-		if (TRUE === isset($settings['pluginPageUid']) && FALSE === empty($settings['pluginPageUid'])) {
-			$pluginPageUid = $settings['pluginPageUid'];
-		} else {
+		if (NULL === ($pluginPageUid = $this->settingsService->getSetting('pluginPageUid'))) {
 			throw new Tx_Extbase_Configuration_Exception('Plugin page Uid is not configured.');
 		}
 

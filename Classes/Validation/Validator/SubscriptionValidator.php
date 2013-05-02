@@ -34,9 +34,9 @@
 class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator {
 
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var Tx_Dmailsubscribe_Service_SettingsService
 	 */
-	protected $configurationManager;
+	protected $settingsService;
 
 	/**
 	 * @var Tx_Extbase_Object_ObjectManager
@@ -44,11 +44,11 @@ class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Ex
 	protected $objectManager;
 
 	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
 	 * @return void
 	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
+	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
+		$this->settingsService = $settingsService;
 	}
 
 	/**
@@ -74,17 +74,9 @@ class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Ex
 			throw new Tx_Extbase_Validation_Exception_InvalidSubject(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
 		}
 
-		$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+		$requiredFields = $this->settingsService->getSetting('requiredFields', array(), ',');
 
-		$requiredFields = array();
-		if (TRUE === isset($settings['requiredFields']) && '' !== $settings['requiredFields']) {
-			$requiredFields  = t3lib_div::trimExplode(',', $settings['requiredFields']);
-		}
-
-		$lookupPageIds = array();
-		if (TRUE === isset($settings['lookupPids']) && '' !== $settings['lookupPids']) {
-			$lookupPageIds = t3lib_div::trimExplode(',', $settings['lookupPids']);
-		}
+		$lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
 
 		$emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
 		$this->addPropertyValidator('email', $emailNotRegisteredValidator);
