@@ -11,4 +11,26 @@ plugin.tx_dmailsubscribe {
 		# cat=plugin.tx_dmailsubscribe//a; type=string; label=Default storage PID
 		storagePid =
 	}
+	settings {
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Additional fields to display in form
+		additionalFields = gender, name, company
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Fields which are required to be filled
+		requiredFields = gender, name
+		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute confirmation message sending errors
+		muteConfirmationErrors = 1
+		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute unsubscription message sending errors
+		muteUnsubscribeErrors = 1
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up subscription (tt_address) records
+		lookupPids =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up category (sys_dmail_category) records
+		categoryPids =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Email of sender used in confirmation emails
+		fromEmail =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Name of sender used in confirmation emails
+        fromName =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Subject of subscription confirmation email
+        subject =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Page UID where plugin is located (used to generate unsubscribe links)
+        pluginPageUid =
+	}
 }
