@@ -28,9 +28,9 @@
  * Returns FALSE as validation result if email is already registered.
  *
  * @package Dmailsubscribe
- * @subpackage Validator
+ * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
+class Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
 
 	/**
 	 * @var Tx_Extbase_Object_ObjectManager

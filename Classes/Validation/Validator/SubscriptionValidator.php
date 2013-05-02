@@ -29,9 +29,9 @@
  * Validators as configured in TypoScript.
  *
  * @package Dmailsubscribe
- * @subpackage Validator
+ * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator {
+class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator {
 
 	/**
 	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
@@ -86,7 +86,7 @@ class Tx_Dmailsubscribe_Validator_SubscriptionValidator extends Tx_Extbase_Valid
 			$lookupPageIds = t3lib_div::trimExplode(',', $settings['lookupPids']);
 		}
 
-		$emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
+		$emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
 		$this->addPropertyValidator('email', $emailNotRegisteredValidator);
 
 		foreach ($requiredFields as $field) {
