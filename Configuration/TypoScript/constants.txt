@@ -16,9 +16,9 @@ plugin.tx_dmailsubscribe {
 		additionalFields = gender, name, company, receiveHtml, categories
 		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Fields which are required to be filled
 		requiredFields = gender, name
-		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute confirmation message sending errors
+		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute confirmation errors
 		muteConfirmationErrors = 1
-		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute unsubscription message sending errors
+		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute unsubscription errors
 		muteUnsubscribeErrors = 1
 		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up subscription (tt_address) records
 		lookupPids =
