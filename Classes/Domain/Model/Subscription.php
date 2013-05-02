@@ -21,11 +21,21 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Subscription Model
+ *
+ * Model object for a subscription to direct_mail newsletters
+ * with subscriptions stored as tt_address records.
+ *
+ * @package Dmailsubscribe
+ * @subpackage Domain\Model
+ */
 class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
 	 * @var string
-	 * @validate emailAddress
+	 * @validate EmailAddress
 	 */
 	protected $email;
 

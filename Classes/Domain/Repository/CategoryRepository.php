@@ -21,6 +21,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Category Repository
+ *
+ * @package Dmailsubscribe
+ * @subpackage Domain\Repository
+ */
 class Tx_Dmailsubscribe_Domain_Repository_CategoryRepository extends Tx_Extbase_Persistence_Repository {
 
 	/**

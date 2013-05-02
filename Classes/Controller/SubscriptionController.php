@@ -21,6 +21,16 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Subscription Controller
+ *
+ * Handles the Subscription model object, making new
+ * Subscriptions, unsubscribing, confirming etc.
+ *
+ * @package Dmailsubscribe
+ * @subpackage Controller
+ */
 class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
@@ -35,6 +45,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 
 	/**
 	 * @param Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository
+	 * @return void
 	 */
 	public function injectCategoryRepository(Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository) {
 		$this->categoryRepository = $repository;
@@ -42,6 +53,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 
 	/**
 	 * @param Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository
+	 * @return void
 	 */
 	public function injectSubscriptionRepository(Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository) {
 		$this->subscriptionRepository = $repository;

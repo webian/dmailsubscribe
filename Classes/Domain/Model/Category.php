@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * (DirectMail) Category Model
+ *
+ * Simple model for a DirectMail category record.
+ *
+ * @package Dmailsubscribe
+ * @subpackage Domain\Model
+ */
 class Tx_Dmailsubscribe_Domain_Model_Category extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**

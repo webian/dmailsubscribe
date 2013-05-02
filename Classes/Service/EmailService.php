@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Email Service
+ *
+ * Wrapper Service to quickly send emails
+ *
+ * @package Dmailsubscribe
+ * @subpackage Service
+ */
 class Tx_Dmailsubscribe_Service_EmailService {
 
 	/**

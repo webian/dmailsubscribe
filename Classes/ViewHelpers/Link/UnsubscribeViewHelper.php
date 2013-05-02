@@ -21,6 +21,15 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+/**
+ * Unsubscription link generating VieWHelper
+ *
+ * Generates a link to the "unsubscribe" action.
+ *
+ * @package Dmailsubscribe
+ * @subpackage ViewHelpers\Link
+ */
 class Tx_Dmailsubscribe_ViewHelpers_Link_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper {
 
 	/**
