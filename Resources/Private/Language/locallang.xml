@@ -6,6 +6,18 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+            <label index="flexforms.sheet_general">General settings</label>
+            <label index="flexforms.sheet_email">Email settings</label>
+            <label index="flexforms.additional_fields">Additional fields</label>
+            <label index="flexforms.required_fields">Required fields</label>
+            <label index="flexforms.mute_confrmation_errors">Mute confirmation errors</label>
+            <label index="flexforms.mute_unsubscribe_errors">Mute unsubscribe errors</label>
+            <label index="flexforms.lookup_pids">Pids in which to look up subscription (tt_address) records</label>
+            <label index="flexforms.category_pids">Pids in which to look up category (sys_dmail_category) records</label>
+            <label index="flexforms.plugin_page_uid">Page UID where plugin is located (used to generate unsubscribe links)</label>
+            <label index="flexforms.from_email">Email of sender used in confirmation emails</label>
+            <label index="flexforms.from_name">Name of sender used in confirmation emails</label>
+            <label index="flexforms.subject">Subject of subscription confirmation email</label>
 			<label index="label.gender">Title</label>
 			<label index="label.name">Name</label>
 			<label index="label.company">Company</label>
