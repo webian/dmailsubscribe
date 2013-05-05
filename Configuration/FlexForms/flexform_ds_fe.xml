@@ -17,6 +17,7 @@
                                 <type>input</type>
                                 <size>30</size>
                                 <eval>trim</eval>
+                                <default>gender, name, company, receiveHtml, categories</default>
                             </config>
                         </TCEforms>
                     </settings.additionalFields>
@@ -27,6 +28,7 @@
                                 <type>input</type>
                                 <size>30</size>
                                 <eval>trim</eval>
+                                <default>gender, name</default>
                             </config>
                         </TCEforms>
                     </settings.requiredFields>
@@ -35,6 +37,7 @@
                             <label>LLL:EXT:dmailsubscribe/Resources/Private/Language/locallang.xml:flexforms.mute_confrmation_errors</label>
                             <config type="array">
                                 <type>check</type>
+                                <default>1</default>
                             </config>
                         </TCEforms>
                     </settings.muteConfrmationErrors>
@@ -43,6 +46,7 @@
                             <label>LLL:EXT:dmailsubscribe/Resources/Private/Language/locallang.xml:flexforms.mute_unsubscribe_errors</label>
                             <config type="array">
                                 <type>check</type>
+                                <default>1</default>
                             </config>
                         </TCEforms>
                     </settings.muteUnsubscribeErrors>
