@@ -96,7 +96,9 @@
                     </settings.pluginPageUid>
                 </el>
             </ROOT>
-            <email>
+        </sDEF>
+        <email>
+            <ROOT>
                 <TCEforms>
                     <sheetTitle>LLL:EXT:dmailsubscribe/Resources/Private/Language/locallang.xml:flexforms.sheet_email</sheetTitle>
                 </TCEforms>
@@ -133,7 +135,7 @@
                         </TCEforms>
                     </settings.subject>
                 </el>
-            </email>
-        </sDEF>
+            </ROOT>
+        </email>
     </sheets>
 </T3DataStructure>
