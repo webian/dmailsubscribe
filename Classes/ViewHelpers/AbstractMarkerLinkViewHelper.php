@@ -23,15 +23,14 @@
  ***************************************************************/
 
 /**
- * Class Tx_Dmailsubscribe_ViewHelpers_TemplateLinkViewHelper
+ * Class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper
  *
- * ViewHelper to generate unsubscribe or confirmatino links containing
- * markers to be placed in direct_mail newsletter templates
+ * Base class for marker bases links
  *
  * @package Dmailsubscribe
  * @subpackage ViewHelpers
  */
-abstract class Tx_Dmailsubscribe_ViewHelpers_TemplateLinkViewHelper extends Tx_Fluid_ViewHelpers_Link_PageViewHelper {
+abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper extends Tx_Fluid_ViewHelpers_Link_PageViewHelper {
 
 	/**
 	 * @var string

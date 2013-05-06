@@ -25,7 +25,8 @@
 /**
  * Unsubscription link generating VieWHelper
  *
- * Generates a link to the "unsubscribe" action.
+ * Generates a link to the "unsubscribe" action including markers
+ * to be placed in direct_mail templates.
  *
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
