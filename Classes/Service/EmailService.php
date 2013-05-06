@@ -69,7 +69,7 @@ class Tx_Dmailsubscribe_Service_EmailService {
 	 */
 	public function send($toEmail, $toName, $templateName, $html = TRUE, array $variables = array()) {
 		$charset = $this->settingsService->getSetting('charset', 'utf-8');
-		$subject = $this->settingsService('subject', 'Newsletter Subsciption');
+		$subject = $this->settingsService->getSetting('subject', 'Newsletter Subsciption');
 
 		if (NULL === ($fromEmail = $this->settingsService->get('fromEmail'))) {
 			throw new Tx_Extbase_Configuration_Exception('Sender email address is not specified.');
