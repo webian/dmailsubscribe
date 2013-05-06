@@ -67,6 +67,7 @@ class Tx_Dmailsubscribe_Service_SettingsService {
 			self::$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 		}
 
+		$setting = NULL;
 		if (TRUE === isset(self::$settings[$name])) {
 			if (FALSE === empty(self::$settings[$name])) {
 				$setting = self::$settings[$name];
