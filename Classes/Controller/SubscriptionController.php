@@ -225,7 +225,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	 * @return string
 	 */
 	private function generateConfirmationCode($uid) {
-		return t3lib_div::stdAuthCode($uid, '', 16);
+		return t3lib_div::stdAuthCode($uid);
 	}
 
 	/**
