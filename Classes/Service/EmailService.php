@@ -71,11 +71,11 @@ class Tx_Dmailsubscribe_Service_EmailService {
 		$charset = $this->settingsService->getSetting('charset', 'utf-8');
 		$subject = $this->settingsService->getSetting('subject', 'Newsletter Subsciption');
 
-		if (NULL === ($fromEmail = $this->settingsService->get('fromEmail'))) {
+		if (NULL === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
 			throw new Tx_Extbase_Configuration_Exception('Sender email address is not specified.');
 		}
 
-		if (NULL === ($fromName = $this->settingsService->get('fromName'))) {
+		if (NULL === ($fromName = $this->settingsService->getSetting('fromName'))) {
 			throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
 		}
 
