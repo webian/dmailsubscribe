@@ -72,7 +72,7 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper extends Tx_F
 			'confirmationCode' => $this->arguments['confirmationCode'],
 		);
 
-		return parent::render($this->action, $arguments, 'Subscription', NULL, NULL, $pluginPageUid, 0, FALSE, FALSE, '', '', FALSE, array(), TRUE);
+		return parent::render($this->action, $arguments, 'Subscription', NULL, NULL, $pluginPageUid, 0, FALSE, TRUE, '', '', FALSE, array(), TRUE);
 	}
 
 }
