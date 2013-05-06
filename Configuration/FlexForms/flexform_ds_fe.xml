@@ -23,7 +23,7 @@
                     </settings.additionalFields>
                     <settings.requiredFields>
                         <TCEforms>
-                            <label>LLL:EXT:dmailsubscribe/Resources/Private/Language/locallang.xml:flexforms.additional_fields</label>
+                            <label>LLL:EXT:dmailsubscribe/Resources/Private/Language/locallang.xml:flexforms.required_fields</label>
                             <config type="array">
                                 <type>input</type>
                                 <size>30</size>
