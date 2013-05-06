@@ -78,6 +78,17 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	 * @ignorevalidation $subscription
 	 */
 	public function newAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription = NULL) {
+		if (NULL !== t3lib_div::_GET('a') && NULL !== t3lib_div::_GET('c') && NULL !== t3lib_div::_GET('u')) {
+			$action = t3lib_div::_GET('a');
+			if ('confirm' == $action || 'unsubscribe' == $action) {
+				$arguments = array(
+					'confirmationCode' => t3lib_div::_GET('c'),
+					'subscriptionUid'  => t3lib_div::_GET('u'),
+				);
+				$this->redirect($action, NULL, NULL, $arguments);
+			}
+		}
+
 		$categoryPids     = $this->settingsService->getSetting('categoryPids', array(), ',');
 		$additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', array(), ','), TRUE);
 		$requiredFields   = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), TRUE);
