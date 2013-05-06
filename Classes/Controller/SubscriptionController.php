@@ -170,7 +170,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	 * @return void
 	 */
 	public function confirmAction($subscriptionUid, $confirmationCode) {
-		$muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfigurationErrors', TRUE);
+		$muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfirmationErrors', TRUE);
 
 		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
 			if (FALSE === $muteConfirmationErrors) {
