@@ -73,6 +73,15 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	}
 
 	/**
+	 * This default action for rendering the subscription form will also catch
+	 * simplified links of the pattern
+	 *
+	 * index.php?id=PID&a=ACTION&c=###SYS_AUTHCODE###&u=###USER_uid###
+	 *
+	 * to achieve short links to insert into direct_mail newsletters with
+	 * action being either 'confirm' or 'unsubscribe' and PID being the
+	 * id of the page including this plugin.
+	 *
 	 * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
 	 * @return void
 	 * @ignorevalidation $subscription
