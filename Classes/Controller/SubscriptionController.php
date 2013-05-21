@@ -161,7 +161,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 		$message = Tx_Extbase_Utility_Localization::translate('message.subscribe.success', $this->extensionName);
 		$this->flashMessageContainer->add($message);
 
-		$this->redirect('new');
+		$this->redirect('message');
 	}
 
 	/**
@@ -172,10 +172,13 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	public function confirmAction($subscriptionUid, $confirmationCode) {
 		$muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfirmationErrors', TRUE);
 
+		$redirect = 'new';
+
 		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
 			if (FALSE === $muteConfirmationErrors) {
 				$message = Tx_Extbase_Utility_Localization::translate('message.confirm.confirmation_code_invalid', $this->extensionName);
 				$this->flashMessageContainer->add($message);
+				$redirect = 'message';
 			}
 		}
 
@@ -184,6 +187,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			if (FALSE === $muteConfirmationErrors) {
 				$message = Tx_Extbase_Utility_Localization::translate('message.confirm.subscription_not_found', $this->extensionName);
 				$this->flashMessageContainer->add($message);
+				$redirect = 'message';
 			}
 		}
 
@@ -192,9 +196,10 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			$this->subscriptionRepository->update($subscription);
 			$message = Tx_Extbase_Utility_Localization::translate('message.confirm.success', $this->extensionName);
 			$this->flashMessageContainer->add($message);
+			$redirect = 'message';
 		}
 
-		$this->redirect('new');
+		$this->redirect($redirect);
 	}
 
 	/**
@@ -205,10 +210,13 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 	public function unsubscribeAction($subscriptionUid, $confirmationCode) {
 		$muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', TRUE);
 
+		$redirect = 'new';
+
 		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
 			if (FALSE === $muteUnsubscribeErrors) {
 				$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.confirmation_code_invalid', $this->extensionName);
 				$this->flashMessageContainer->add($message);
+				$redirect = 'message';
 			}
 		}
 
@@ -217,6 +225,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			if (FALSE === $muteUnsubscribeErrors) {
 				$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
 				$this->flashMessageContainer->add($message);
+				$redirect = 'message';
 			}
 		}
 
@@ -224,9 +233,16 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			$this->subscriptionRepository->remove($subscription);
 			$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
 			$this->flashMessageContainer->add($message);
+			$redirect = 'message';
 		}
 
-		$this->redirect('new');
+		$this->redirect($redirect);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function messageAction() {
 	}
 
 	/**
