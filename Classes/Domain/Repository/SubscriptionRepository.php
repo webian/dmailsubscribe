@@ -73,7 +73,7 @@ class Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository extends Tx_Extb
 		}
 
 		$query->matching($query->logicalAnd(
-			$query->equals('deleted',0),
+			$query->equals('deleted', 0),
 			$query->equals('uid', intval($uid))
 		));
 

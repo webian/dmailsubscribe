@@ -123,10 +123,10 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			);
 		}
 
-		$this->view->assign('subscription',     $subscription);
+		$this->view->assign('subscription', $subscription);
 		$this->view->assign('additionalFields', $additionalFields);
-		$this->view->assign('requiredFields',   $requiredFields);
-		$this->view->assign('categories',       $formCategories);
+		$this->view->assign('requiredFields', $requiredFields);
+		$this->view->assign('categories', $formCategories);
 	}
 
 	/**
