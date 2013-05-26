@@ -47,7 +47,7 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper extend
 			'c' => '###SYS_AUTHCODE###',
 			'u' => '###USER_uid###',
 		);
-		return parent::render($pageUid, $additionalParams, 0, TRUE, TRUE, '', FALSE, TRUE, FALSE);
+		return rawurldecode(parent::render($pageUid, $additionalParams, 0, TRUE, TRUE, '', FALSE, TRUE, FALSE));
 	}
 
 }
