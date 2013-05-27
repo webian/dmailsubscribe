@@ -38,6 +38,14 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper extend
 	protected $action;
 
 	/**
+	 * @return void
+	 */
+	public function initializeArguments() {
+		parent::initializeArguments();
+		$this->registerArgument('pageUid', 'integer', 'Uid of the page containing the subscription plugin.', TRUE);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function render() {
