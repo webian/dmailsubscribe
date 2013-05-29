@@ -68,8 +68,9 @@ class Tx_Dmailsubscribe_Service_SettingsService {
 		}
 
 		$setting = NULL;
+
 		if (TRUE === isset(self::$settings[$name])) {
-			if (FALSE === empty(self::$settings[$name])) {
+			if ('' !== self::$settings[$name]) {
 				$setting = self::$settings[$name];
 				if (NULL !== $explode) {
 					$setting = t3lib_div::trimExplode($explode, $setting);
