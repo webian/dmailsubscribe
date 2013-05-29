@@ -123,10 +123,14 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 			);
 		}
 
+		$pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
+		$unsubscribePageUid = $this->settingsService->getSetting('unsubscribePageUid', $pluginPageUid);
+
 		$this->view->assign('subscription', $subscription);
 		$this->view->assign('additionalFields', $additionalFields);
 		$this->view->assign('requiredFields', $requiredFields);
 		$this->view->assign('categories', $formCategories);
+		$this->view->assign('unsubscribePageUid', $unsubscribePageUid);
 	}
 
 	/**
@@ -233,6 +237,28 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 		}
 
 		$this->redirect('new');
+	}
+
+	/**
+	 * @param string $email
+	 * @return void
+	 */
+	public function unsubscribeformAction($email = NULL) {
+		if (NULL !== $email) {
+			$muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', TRUE);
+			$lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
+			if (NULL === ($subscription = $this->subscriptionRepository->findByEmail($email, $lookupPageIds))) {
+				if (FALSE === $muteUnsubscribeErrors) {
+					$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
+					$this->flashMessageContainer->add($message);
+				}
+			} else {
+				$this->subscriptionRepository->remove($subscription);
+				$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
+				$this->flashMessageContainer->add($message);
+				$this->redirect('message');
+			}
+		}
 	}
 
 	/**

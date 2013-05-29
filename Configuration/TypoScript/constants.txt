@@ -32,5 +32,7 @@ plugin.tx_dmailsubscribe {
         subject =
 		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Page UID where plugin is located (used to generate unsubscribe links)
         pluginPageUid =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=UID of dedicated unsubscribe page (needs to contain the plugin, defaults to pluginPageUid)
+        unsubscribePageUid =
 	}
 }

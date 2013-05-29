@@ -1,0 +1,21 @@
+<f:layout name="Form" />
+
+<f:section name="Main">
+    <f:flashMessages />
+    <f:form method="post" action="unsubscribeform" name="unsubscription">
+        <div class="form-row">
+            <div class="form-label">
+                <label for="email">{f:translate(key: 'label.email')}*</label>
+            </div>
+            <div class="form-field">
+                <f:form.textfield id="email" name="email" />
+            </div>
+            <f:form.validationResults for="subscription.email">
+                <f:for each="{validationResults.flattenedErrors}" as="error">
+                    <div class="error">{error.0.message}</div>
+                </f:for>
+            </f:form.validationResults>
+        </div>
+        <f:form.submit name="submit" value="{f:translate(key: 'label.unsubscribe')}" />
+    </f:form>
+</f:section>
