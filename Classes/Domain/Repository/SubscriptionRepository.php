@@ -40,6 +40,8 @@ class Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository extends Tx_Extb
 	public function findByEmail($email, array $lookupPageIds = array()) {
 		$query = $this->createQuery();
 
+		$query->getQuerySettings()->setRespectEnableFields(FALSE);
+
 		if (0 < count($lookupPageIds)) {
 			$defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
 			$combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
