@@ -31,7 +31,7 @@
 			<label index="message.confirm.subscription_not_found">This subscription could not be found or is already confirmed.</label>
 			<label index="message.confirm.success">Your subscription has been confirmed.</label>
 			<label index="message.unsubscribe.confirmation_code_invalid">The provided confirmation code is invalid.</label>
-			<label index="message.unsubscribe.subscription_not_found">This subscription could not be found or is already confirmed.</label>
+			<label index="message.unsubscribe.subscription_not_found">This subscription could not be found.</label>
 			<label index="message.unsubscribe.success">You have been successfully unsubscribed from our newsletter.</label>
 		</languageKey>
 	</data>
