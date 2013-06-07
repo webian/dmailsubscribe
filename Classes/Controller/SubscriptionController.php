@@ -130,6 +130,7 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 		$this->view->assign('additionalFields', $additionalFields);
 		$this->view->assign('requiredFields', $requiredFields);
 		$this->view->assign('categories', $formCategories);
+		$this->view->assign('pluginPageUid', $pluginPageUid);
 		$this->view->assign('unsubscribePageUid', $unsubscribePageUid);
 	}
 
@@ -259,6 +260,11 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 				$this->redirect('message');
 			}
 		}
+		$pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
+		$unsubscribePageUid = $this->settingsService->getSetting('unsubscribePageUid', $pluginPageUid);
+
+		$this->view->assign('pluginPageUid', $pluginPageUid);
+		$this->view->assign('unsubscribePageUid', $unsubscribePageUid);
 	}
 
 	/**
