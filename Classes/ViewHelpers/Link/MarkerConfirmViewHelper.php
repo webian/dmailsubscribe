@@ -36,7 +36,7 @@ use DPN\Dmailsubscribe\ViewHelpers\AbstractMarkerLinkViewHelper;
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
  */
-class ConfirmMarkerViewHelper extends AbstractMarkerLinkViewHelper
+class MarkerConfirmViewHelper extends AbstractMarkerLinkViewHelper
 {
     /**
      * @var string

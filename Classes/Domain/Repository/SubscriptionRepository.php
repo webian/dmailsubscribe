@@ -74,7 +74,6 @@ class SubscriptionRepository extends Repository
      */
     public function findNotConfirmedByUid($uid, array $lookupPageIds = array())
     {
-
         $query = $this->createQuery();
 
         $query->getQuerySettings()->setIgnoreEnableFields(true);
