@@ -1,38 +1,40 @@
 plugin.tx_dmailsubscribe {
-	view {
-		# cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template root (FE)
-		templateRootPath = EXT:dmailsubscribe/Resources/Private/Templates/
-		# cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template partials (FE)
-		partialRootPath = EXT:dmailsubscribe/Resources/Private/Partials/
-		# cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template layouts (FE)
-		layoutRootPath = EXT:dmailsubscribe/Resources/Private/Layouts/
-	}
-	persistence {
-		# cat=plugin.tx_dmailsubscribe//a; type=string; label=Default storage PID
-		storagePid =
-	}
-	settings {
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Additional fields to display in form
-		additionalFields = gender, name, company, receiveHtml, categories
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Fields which are required to be filled
-		requiredFields = gender, name
-		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute confirmation errors
-		muteConfirmationErrors = 1
-		# cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute unsubscription errors
-		muteUnsubscribeErrors = 1
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up subscription (tt_address) records
-		lookupPids =
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up category (sys_dmail_category) records
-		categoryPids =
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Email of sender used in confirmation emails
-		fromEmail =
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Name of sender used in confirmation emails
+    view {
+        # cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:dmailsubscribe/Resources/Private/Templates/
+        # cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:dmailsubscribe/Resources/Private/Partials/
+        # cat=plugin.tx_dmailsubscribe/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:dmailsubscribe/Resources/Private/Layouts/
+    }
+
+    persistence {
+        # cat=plugin.tx_dmailsubscribe//a; type=string; label=Default storage PID
+        storagePid =
+    }
+
+    settings {
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Additional fields to display in form
+        additionalFields = gender, name, company, receiveHtml, categories
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Fields which are required to be filled
+        requiredFields = gender, name
+        # cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute confirmation errors
+        muteConfirmationErrors = 1
+        # cat=plugin.tx_dmailsubscribe//a; type=boolean; Label=Mute unsubscription errors
+        muteUnsubscribeErrors = 1
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up subscription (tt_address) records
+        lookupPids =
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up category (sys_dmail_category) records
+        categoryPids =
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Email of sender used in confirmation emails
+        fromEmail =
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Name of sender used in confirmation emails
         fromName =
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Subject of subscription confirmation email
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Subject of subscription confirmation email
         subject =
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Page UID where plugin is located (used to generate unsubscribe links)
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Page UID where plugin is located (used to generate unsubscribe links)
         pluginPageUid =
-		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=UID of dedicated unsubscribe page (needs to contain the plugin, defaults to pluginPageUid)
+        # cat=plugin.tx_dmailsubscribe//a; type=string; Label=UID of dedicated unsubscribe page (needs to contain the plugin, defaults to pluginPageUid)
         unsubscribePageUid =
-	}
+    }
 }
