@@ -31,273 +31,285 @@
  * @package Dmailsubscribe
  * @subpackage Controller
  */
-class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC_Controller_ActionController {
+class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC_Controller_ActionController
+{
+    /**
+     * @var Tx_Dmailsubscribe_Domain_Repository_CategoryRepository
+     */
+    protected $categoryRepository;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Domain_Repository_CategoryRepository
-	 */
-	protected $categoryRepository;
+    /**
+     * @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository
+     */
+    protected $subscriptionRepository;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository
-	 */
-	protected $subscriptionRepository;
+    /**
+     * @var Tx_Dmailsubscribe_Service_SettingsService
+     */
+    protected $settingsService;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Service_SettingsService
-	 */
-	protected $settingsService;
+    /**
+     * @param Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository
+     * @return void
+     */
+    public function injectCategoryRepository(Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository)
+    {
+        $this->categoryRepository = $repository;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository
-	 * @return void
-	 */
-	public function injectCategoryRepository(Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository) {
-		$this->categoryRepository = $repository;
-	}
+    /**
+     * @param Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository
+     * @return void
+     */
+    public function injectSubscriptionRepository(Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository)
+    {
+        $this->subscriptionRepository = $repository;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository
-	 * @return void
-	 */
-	public function injectSubscriptionRepository(Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository) {
-		$this->subscriptionRepository = $repository;
-	}
+    /**
+     * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+     * @return void
+     */
+    public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
-	 * @return void
-	 */
-	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
-		$this->settingsService = $settingsService;
-	}
+    /**
+     * This default action for rendering the subscription form will also catch
+     * simplified links of the pattern
+     *
+     * index.php?id=PID&a=ACTION&c=###SYS_AUTHCODE###&u=###USER_uid###
+     *
+     * to achieve short links to insert into direct_mail newsletters with
+     * action being either 'confirm' or 'unsubscribe' and PID being the
+     * id of the page including this plugin.
+     *
+     * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
+     * @return void
+     * @ignorevalidation $subscription
+     */
+    public function newAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription = null)
+    {
+        if (null !== t3lib_div::_GET('a') && null !== t3lib_div::_GET('c') && null !== t3lib_div::_GET('u')) {
+            $action = t3lib_div::_GET('a');
+            if ('confirm' == $action || 'unsubscribe' == $action) {
+                $arguments = array(
+                    'confirmationCode' => t3lib_div::_GET('c'),
+                    'subscriptionUid'  => t3lib_div::_GET('u'),
+                );
+                $this->redirect($action, null, null, $arguments);
+            }
+        }
 
-	/**
-	 * This default action for rendering the subscription form will also catch
-	 * simplified links of the pattern
-	 *
-	 * index.php?id=PID&a=ACTION&c=###SYS_AUTHCODE###&u=###USER_uid###
-	 *
-	 * to achieve short links to insert into direct_mail newsletters with
-	 * action being either 'confirm' or 'unsubscribe' and PID being the
-	 * id of the page including this plugin.
-	 *
-	 * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
-	 * @return void
-	 * @ignorevalidation $subscription
-	 */
-	public function newAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription = NULL) {
-		if (NULL !== t3lib_div::_GET('a') && NULL !== t3lib_div::_GET('c') && NULL !== t3lib_div::_GET('u')) {
-			$action = t3lib_div::_GET('a');
-			if ('confirm' == $action || 'unsubscribe' == $action) {
-				$arguments = array(
-					'confirmationCode' => t3lib_div::_GET('c'),
-					'subscriptionUid'  => t3lib_div::_GET('u'),
-				);
-				$this->redirect($action, NULL, NULL, $arguments);
-			}
-		}
+        $categoryPids     = $this->settingsService->getSetting('categoryPids', array(), ',');
+        $additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', array(), ','), true);
+        $requiredFields   = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), true);
 
-		$categoryPids     = $this->settingsService->getSetting('categoryPids', array(), ',');
-		$additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', array(), ','), TRUE);
-		$requiredFields   = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), TRUE);
+        $selectedCategories = array();
+        if (null === ($originalRequest = $this->request->getOriginalRequest())) {
+            $subscription = $this->objectManager->create('Tx_Dmailsubscribe_Domain_Model_Subscription');
+        } else {
+            $subscription = $originalRequest->getArgument('subscription');
+            if ($originalRequest->hasArgument('categories')) {
+                $selectedCategories = $originalRequest->getArgument('categories');
+            }
+        }
 
-		$selectedCategories = array();
-		if (NULL === ($originalRequest = $this->request->getOriginalRequest())) {
-			$subscription = $this->objectManager->create('Tx_Dmailsubscribe_Domain_Model_Subscription');
-		} else {
-			$subscription = $originalRequest->getArgument('subscription');
-			if ($originalRequest->hasArgument('categories')) {
-				$selectedCategories = $originalRequest->getArgument('categories');
-			}
-		}
+        $selectableCategories = $this->categoryRepository->findAllInPids($categoryPids);
+        $formCategories  = array();
 
-		$selectableCategories = $this->categoryRepository->findAllInPids($categoryPids);
-		$formCategories  = array();
+        foreach ($selectableCategories as $category) {
+            $formCategories[] = array(
+                'uid'     => $category->getUid(),
+                'title'   => $category->getTitle(),
+                'checked' => (boolean) $selectedCategories[$category->getUid()],
+            );
+        }
 
-		foreach ($selectableCategories as $category) {
-			$formCategories[] = array(
-				'uid'     => $category->getUid(),
-				'title'   => $category->getTitle(),
-				'checked' => (boolean) $selectedCategories[$category->getUid()],
-			);
-		}
+        $pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
+        $unsubscribePageUid = $this->settingsService->getSetting('unsubscribePageUid', $pluginPageUid);
 
-		$pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
-		$unsubscribePageUid = $this->settingsService->getSetting('unsubscribePageUid', $pluginPageUid);
+        $this->view->assign('subscription', $subscription);
+        $this->view->assign('additionalFields', $additionalFields);
+        $this->view->assign('requiredFields', $requiredFields);
+        $this->view->assign('categories', $formCategories);
+        $this->view->assign('pluginPageUid', $pluginPageUid);
+        $this->view->assign('unsubscribePageUid', $unsubscribePageUid);
+    }
 
-		$this->view->assign('subscription', $subscription);
-		$this->view->assign('additionalFields', $additionalFields);
-		$this->view->assign('requiredFields', $requiredFields);
-		$this->view->assign('categories', $formCategories);
-		$this->view->assign('pluginPageUid', $pluginPageUid);
-		$this->view->assign('unsubscribePageUid', $unsubscribePageUid);
-	}
+    /**
+     * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
+     * @param array $categories
+     * @return void
+     * @validate $subscription Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator
+     */
+    public function subscribeAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription, $categories = array())
+    {
+        $categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
 
-	/**
-	 * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
-	 * @param array $categories
-	 * @return void
-	 * @validate $subscription Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator
-	 */
-	public function subscribeAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription, $categories = array()) {
-		$categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
+        $selectedCategories = $this->categoryRepository->findAllByUids($categories, $categoryPids);
+        foreach ($selectedCategories as $category) {
+            $subscription->addCategory($category);
+        }
 
-		$selectedCategories = $this->categoryRepository->findAllByUids($categories, $categoryPids);
-		foreach ($selectedCategories as $category) {
-			$subscription->addCategory($category);
-		}
+        $this->subscriptionRepository->add($subscription);
 
-		$this->subscriptionRepository->add($subscription);
+        /** @var Tx_Extbase_Persistence_Manager $persistenceManager */
+        $persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        $persistenceManager->persistAll();
 
-		/** @var Tx_Extbase_Persistence_Manager $persistenceManager */
-		$persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
-		$persistenceManager->persistAll();
+        $templateVariables = array(
+            'subscription'     => $subscription,
+            'confirmationCode' => $this->generateConfirmationCode($subscription->getUid()),
+        );
 
-		$templateVariables = array(
-			'subscription'     => $subscription,
-			'confirmationCode' => $this->generateConfirmationCode($subscription->getUid()),
-		);
+        /** @var Tx_Dmailsubscribe_Service_EmailService $emailService */
+        $emailService = $this->objectManager->get('Tx_Dmailsubscribe_Service_EmailService');
+        $emailService->send($subscription->getEmail(), $subscription->getName(), 'NewSubscription', $subscription->getReceiveHtml(), $templateVariables);
 
-		/** @var Tx_Dmailsubscribe_Service_EmailService $emailService */
-		$emailService = $this->objectManager->get('Tx_Dmailsubscribe_Service_EmailService');
-		$emailService->send($subscription->getEmail(), $subscription->getName(), 'NewSubscription', $subscription->getReceiveHtml(), $templateVariables);
+        $message = Tx_Extbase_Utility_Localization::translate('message.subscribe.success', $this->extensionName);
+        $this->flashMessageContainer->add($message);
 
-		$message = Tx_Extbase_Utility_Localization::translate('message.subscribe.success', $this->extensionName);
-		$this->flashMessageContainer->add($message);
+        $this->redirect('message');
+    }
 
-		$this->redirect('message');
-	}
+    /**
+     * @param string $subscriptionUid
+     * @param string $confirmationCode
+     * @return void
+     */
+    public function confirmAction($subscriptionUid, $confirmationCode)
+    {
+        $muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfirmationErrors', true);
 
-	/**
-	 * @param string $subscriptionUid
-	 * @param string $confirmationCode
-	 * @return void
-	 */
-	public function confirmAction($subscriptionUid, $confirmationCode) {
-		$muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfirmationErrors', TRUE);
+        if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
+            if (false === $muteConfirmationErrors) {
+                $message = Tx_Extbase_Utility_Localization::translate('message.confirm.confirmation_code_invalid', $this->extensionName);
+                $this->flashMessageContainer->add($message);
+                $this->redirect('message');
+            }
+        }
 
-		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
-			if (FALSE === $muteConfirmationErrors) {
-				$message = Tx_Extbase_Utility_Localization::translate('message.confirm.confirmation_code_invalid', $this->extensionName);
-				$this->flashMessageContainer->add($message);
-				$this->redirect('message');
-			}
-		}
+        /** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
+        if (null === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid))) {
+            if (false === $muteConfirmationErrors) {
+                $message = Tx_Extbase_Utility_Localization::translate('message.confirm.subscription_not_found', $this->extensionName);
+                $this->flashMessageContainer->add($message);
+                $this->redirect('message');
+            }
+        }
 
-		/** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
-		if (NULL === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid))) {
-			if (FALSE === $muteConfirmationErrors) {
-				$message = Tx_Extbase_Utility_Localization::translate('message.confirm.subscription_not_found', $this->extensionName);
-				$this->flashMessageContainer->add($message);
-				$this->redirect('message');
-			}
-		}
+        if (true === $confirmationCodeValid && null !== $subscription && true === $subscription->getHidden()) {
+            $subscription->setHidden(false);
+            $this->subscriptionRepository->update($subscription);
+            $message = Tx_Extbase_Utility_Localization::translate('message.confirm.success', $this->extensionName);
+            $this->flashMessageContainer->add($message);
+            $this->redirect('message');
+        }
 
-		if (TRUE === $confirmationCodeValid && NULL !== $subscription && TRUE === $subscription->getHidden()) {
-			$subscription->setHidden(FALSE);
-			$this->subscriptionRepository->update($subscription);
-			$message = Tx_Extbase_Utility_Localization::translate('message.confirm.success', $this->extensionName);
-			$this->flashMessageContainer->add($message);
-			$this->redirect('message');
-		}
+        $this->redirect('new');
+    }
 
-		$this->redirect('new');
-	}
+    /**
+     * @param integer $subscriptionUid
+     * @param string $confirmationCode
+     * @return void
+     */
+    public function unsubscribeAction($subscriptionUid, $confirmationCode)
+    {
+        $muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', true);
 
-	/**
-	 * @param integer $subscriptionUid
-	 * @param string $confirmationCode
-	 * @return void
-	 */
-	public function unsubscribeAction($subscriptionUid, $confirmationCode) {
-		$muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', TRUE);
+        if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
+            if (false === $muteUnsubscribeErrors) {
+                $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.confirmation_code_invalid', $this->extensionName);
+                $this->flashMessageContainer->add($message);
+                $this->redirect('message');
+            }
+        }
 
-		if (FALSE === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
-			if (FALSE === $muteUnsubscribeErrors) {
-				$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.confirmation_code_invalid', $this->extensionName);
-				$this->flashMessageContainer->add($message);
-				$this->redirect('message');
-			}
-		}
+        /** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
+        if (null === ($subscription = $this->subscriptionRepository->findByUid($subscriptionUid))) {
+            if (false === $muteUnsubscribeErrors) {
+                $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
+                $this->flashMessageContainer->add($message);
+                $this->redirect('message');
+            }
+        }
 
-		/** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
-		if (NULL === ($subscription = $this->subscriptionRepository->findByUid($subscriptionUid))) {
-			if (FALSE === $muteUnsubscribeErrors) {
-				$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
-				$this->flashMessageContainer->add($message);
-				$this->redirect('message');
-			}
-		}
+        if (true === $confirmationCodeValid && null !== $subscription) {
+            $this->subscriptionRepository->remove($subscription);
+            $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
+            $this->flashMessageContainer->add($message);
+            $this->redirect('message');
+        }
 
-		if (TRUE === $confirmationCodeValid && NULL !== $subscription) {
-			$this->subscriptionRepository->remove($subscription);
-			$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
-			$this->flashMessageContainer->add($message);
-			$this->redirect('message');
-		}
+        $this->redirect('new');
+    }
 
-		$this->redirect('new');
-	}
+    /**
+     * @param string $email
+     * @return void
+     */
+    public function unsubscribeformAction($email = null)
+    {
+        if (null !== $email) {
+            $muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', true);
+            $lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
+            if (null === ($subscription = $this->subscriptionRepository->findByEmail($email, $lookupPageIds))) {
+                if (false === $muteUnsubscribeErrors) {
+                    $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
+                    $this->flashMessageContainer->add($message);
+                }
+            } else {
+                $this->subscriptionRepository->remove($subscription);
+                $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
+                $this->flashMessageContainer->add($message);
+                $this->redirect('message');
+            }
+        }
+        $pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
+        $unsubscribePageUid = $this->settingsService->getSetting('unsubscribePageUid', $pluginPageUid);
 
-	/**
-	 * @param string $email
-	 * @return void
-	 */
-	public function unsubscribeformAction($email = NULL) {
-		if (NULL !== $email) {
-			$muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', TRUE);
-			$lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
-			if (NULL === ($subscription = $this->subscriptionRepository->findByEmail($email, $lookupPageIds))) {
-				if (FALSE === $muteUnsubscribeErrors) {
-					$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
-					$this->flashMessageContainer->add($message);
-				}
-			} else {
-				$this->subscriptionRepository->remove($subscription);
-				$message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
-				$this->flashMessageContainer->add($message);
-				$this->redirect('message');
-			}
-		}
-		$pluginPageUid = $this->settingsService->getSetting('pluginPageUid');
-		$unsubscribePageUid = $this->settingsService->getSetting('unsubscribePageUid', $pluginPageUid);
+        $this->view->assign('pluginPageUid', $pluginPageUid);
+        $this->view->assign('unsubscribePageUid', $unsubscribePageUid);
+    }
 
-		$this->view->assign('pluginPageUid', $pluginPageUid);
-		$this->view->assign('unsubscribePageUid', $unsubscribePageUid);
-	}
+    /**
+     * @return void
+     */
+    public function messageAction()
+    {
+    }
 
-	/**
-	 * @return void
-	 */
-	public function messageAction() {
-	}
+    /**
+     * @param integer $uid
+     * @return string
+     */
+    private function generateConfirmationCode($uid)
+    {
+        return t3lib_div::stdAuthCode($uid);
+    }
 
-	/**
-	 * @param integer $uid
-	 * @return string
-	 */
-	private function generateConfirmationCode($uid) {
-		return t3lib_div::stdAuthCode($uid);
-	}
+    /**
+     * @param integer $uid
+     * @param string $confirmationCode
+     * @return boolean
+     */
+    private function validateConfirmationCode($uid, $confirmationCode)
+    {
+        $confirmationCodeForUid = $this->generateConfirmationCode($uid);
+        return $confirmationCodeForUid === $confirmationCode;
+    }
 
-	/**
-	 * @param integer $uid
-	 * @param string $confirmationCode
-	 * @return boolean
-	 */
-	private function validateConfirmationCode($uid, $confirmationCode) {
-		$confirmationCodeForUid = $this->generateConfirmationCode($uid);
-		return $confirmationCodeForUid === $confirmationCode;
-	}
-
-	/**
-	 * Override parent method to disable output of
-	 * controller errors as flash messages
-	 *
-	 * @return boolean
-	 */
-	public function getErrorFlashMessage() {
-		return FALSE;
-	}
+    /**
+     * Override parent method to disable output of
+     * controller errors as flash messages
+     *
+     * @return boolean
+     */
+    public function getErrorFlashMessage()
+    {
+        return false;
+    }
 }

@@ -30,11 +30,10 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Uri
  */
-class Tx_Dmailsubscribe_ViewHelpers_Link_ConfirmViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $action = 'confirm';
-
+class Tx_Dmailsubscribe_ViewHelpers_Link_ConfirmViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action = 'confirm';
 }

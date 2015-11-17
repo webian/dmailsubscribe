@@ -28,59 +28,61 @@
  * @package Dmailsubscribe
  * @subpackage Domain\Repository
  */
-class Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository extends Tx_Extbase_Persistence_Repository
+{
+    /**
+     * Fetches a single subscription by provided email address
+     *
+     * @param string $email
+     * @param array $lookupPageIds
+     * @return NULL|Tx_Dmailsubscribe_Doman_Model_Subscription
+     */
+    public function findByEmail($email, array $lookupPageIds = array())
+    {
+        $query = $this->createQuery();
 
-	/**
-	 * Fetches a single subscription by provided email address
-	 *
-	 * @param string $email
-	 * @param array $lookupPageIds
-	 * @return NULL|Tx_Dmailsubscribe_Doman_Model_Subscription
-	 */
-	public function findByEmail($email, array $lookupPageIds = array()) {
-		$query = $this->createQuery();
+        $query->getQuerySettings()->setRespectEnableFields(false);
 
-		$query->getQuerySettings()->setRespectEnableFields(FALSE);
+        if (0 < count($lookupPageIds)) {
+            $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
+            $combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
+            $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
+        }
 
-		if (0 < count($lookupPageIds)) {
-			$defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
-			$combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
-			$query->getQuerySettings()->setStoragePageIds($combinedPageIds);
-		}
+        $query->matching($query->equals('email', $email));
 
-		$query->matching($query->equals('email', $email));
+        $query->setLimit(1);
 
-		$query->setLimit(1);
+        return $query->execute()->getFirst();
+    }
 
-		return $query->execute()->getFirst();
-	}
+    /**
+     * Fetches a single subscription by provided uid and ignores
+     * hidden field which is used to determine confirmation status
+     *
+     * @param integer $uid
+     * @param array $lookupPageIds
+     * @return NULL|Tx_Dmailsubscribe_Doman_Model_Subscription
+     */
+    public function findNotConfirmedByUid($uid, array $lookupPageIds = array())
+    {
+        $query = $this->createQuery();
 
-	/**
-	 * Fetches a single subscription by provided uid and ignores
-	 * hidden field which is used to determine confirmation status
-	 *
-	 * @param integer $uid
-	 * @param array $lookupPageIds
-	 * @return NULL|Tx_Dmailsubscribe_Doman_Model_Subscription
-	 */
-	public function findNotConfirmedByUid($uid, array $lookupPageIds = array()) {
-		$query = $this->createQuery();
+        $query->getQuerySettings()->setRespectEnableFields(false);
 
-		$query->getQuerySettings()->setRespectEnableFields(FALSE);
+        if (0 < count($lookupPageIds)) {
+            $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
+            $combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
+            $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
+        }
 
-		if (0 < count($lookupPageIds)) {
-			$defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
-			$combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
-			$query->getQuerySettings()->setStoragePageIds($combinedPageIds);
-		}
+        $query->matching($query->logicalAnd(
+            $query->equals('deleted', 0),
+            $query->equals('uid', intval($uid))
+        ));
 
-		$query->matching($query->logicalAnd(
-			$query->equals('deleted', 0),
-			$query->equals('uid', intval($uid))
-		));
+        $query->setLimit(1);
 
-		$query->setLimit(1);
-
-		return $query->execute()->getFirst();
-	}
+        return $query->execute()->getFirst();
+    }
 }

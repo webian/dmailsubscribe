@@ -28,49 +28,50 @@
  * @package Dmailsubscribe
  * @subpackage Domain\Repository
  */
-class Tx_Dmailsubscribe_Domain_Repository_CategoryRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_Dmailsubscribe_Domain_Repository_CategoryRepository extends Tx_Extbase_Persistence_Repository
+{
+    /**
+     * Fetches all categories from provided storage pids
+     * or - if omitted - all available
+     *
+     * @param array $storagePageIds
+     * @return Tx_Extbase_Persistence_QueryResultInterface
+     */
+    public function findAllInPids(array $storagePageIds = array())
+    {
+        $query = $this->createQuery();
 
-	/**
-	 * Fetches all categories from provided storage pids
-	 * or - if omitted - all available
-	 *
-	 * @param array $storagePageIds
-	 * @return Tx_Extbase_Persistence_QueryResultInterface
-	 */
-	public function findAllInPids(array $storagePageIds = array()) {
-		$query = $this->createQuery();
+        if (0 === count($storagePageIds)) {
+            $query->getQuerySettings()->setRespectStoragePage(false);
+        } else {
+            $query->getQuerySettings()->setStoragePageIds($storagePageIds);
+        }
 
-		if (0 === count($storagePageIds)) {
-			$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		} else {
-			$query->getQuerySettings()->setStoragePageIds($storagePageIds);
-		}
+        return $query->execute();
+    }
 
-		return $query->execute();
-	}
+    /**
+     * @param array $uids
+     * @param array $storagePageIds
+     * @return NULL|Tx_Extbase_Persistence_QueryResultInterface
+     */
+    public function findAllByUids(array $uids, array $storagePageIds = array())
+    {
+        $result = null;
 
-	/**
-	 * @param array $uids
-	 * @param array $storagePageIds
-	 * @return NULL|Tx_Extbase_Persistence_QueryResultInterface
-	 */
-	public function findAllByUids(array $uids, array $storagePageIds = array()) {
-		$result = NULL;
+        $query = $this->createQuery();
 
-		$query = $this->createQuery();
+        if (0 === count($storagePageIds)) {
+            $query->getQuerySettings()->setRespectStoragePage(false);
+        } else {
+            $query->getQuerySettings()->setStoragePageIds($storagePageIds);
+        }
 
-		if (0 === count($storagePageIds)) {
-			$query->getQuerySettings()->setRespectStoragePage(FALSE);
-		} else {
-			$query->getQuerySettings()->setStoragePageIds($storagePageIds);
-		}
+        if (0 < count($uids)) {
+            $query->matching($query->in('uid', $uids));
+            $result = $query->execute();
+        }
 
-		if (0 < count($uids)) {
-			$query->matching($query->in('uid', $uids));
-			$result = $query->execute();
-		}
-
-		return $result;
-	}
-
+        return $result;
+    }
 }

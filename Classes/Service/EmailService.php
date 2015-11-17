@@ -30,106 +30,110 @@
  * @package Dmailsubscribe
  * @subpackage Service
  */
-class Tx_Dmailsubscribe_Service_EmailService {
+class Tx_Dmailsubscribe_Service_EmailService
+{
+    /**
+     * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+     */
+    protected $configurationManager;
 
-	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
-	 */
-	protected $configurationManager;
+    /**
+     * @var Tx_Dmailsubscribe_Service_SettingsService
+     */
+    protected $settingsService;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Service_SettingsService
-	 */
-	protected $settingsService;
+    /**
+     * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+     * @return void
+     */
+    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
 
-	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
-	 * @return void
-	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-	}
+    /**
+     * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+     * @return void
+     */
+    public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
-	 * @return void
-	 */
-	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
-		$this->settingsService = $settingsService;
-	}
+    /**
+     * @param string $toEmail
+     * @param string $toName
+     * @param string $templateName
+     * @param boolean $html
+     * @param array $variables
+     * @throws Tx_Extbase_Configuration_Exception
+     * @return boolean
+     */
+    public function send($toEmail, $toName, $templateName, $html = true, array $variables = array())
+    {
+        $charset = $this->settingsService->getSetting('charset', 'utf-8');
+        $subject = $this->settingsService->getSetting('subject', 'Newsletter Subsciption');
 
-	/**
-	 * @param string $toEmail
-	 * @param string $toName
-	 * @param string $templateName
-	 * @param boolean $html
-	 * @param array $variables
-	 * @throws Tx_Extbase_Configuration_Exception
-	 * @return boolean
-	 */
-	public function send($toEmail, $toName, $templateName, $html = TRUE, array $variables = array()) {
-		$charset = $this->settingsService->getSetting('charset', 'utf-8');
-		$subject = $this->settingsService->getSetting('subject', 'Newsletter Subsciption');
+        if (null === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
+            throw new Tx_Extbase_Configuration_Exception('Sender email address is not specified.');
+        }
 
-		if (NULL === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
-			throw new Tx_Extbase_Configuration_Exception('Sender email address is not specified.');
-		}
+        if (null === ($fromName = $this->settingsService->getSetting('fromName'))) {
+            throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
+        }
 
-		if (NULL === ($fromName = $this->settingsService->getSetting('fromName'))) {
-			throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
-		}
+        $htmlView = $this->getView($templateName, 'html');
+        $htmlView->assignMultiple($variables);
+        $htmlView->assign('charset', $charset);
+        $htmlView->assign('title', $subject);
+        $htmlBody = $htmlView->render();
 
-		$htmlView = $this->getView($templateName, 'html');
-		$htmlView->assignMultiple($variables);
-		$htmlView->assign('charset', $charset);
-		$htmlView->assign('title', $subject);
-		$htmlBody = $htmlView->render();
+        $plainView = $this->getView($templateName, 'txt');
+        $plainView->assignMultiple($variables);
+        $plainView->assign('charset', $charset);
+        $plainView->assign('title', $subject);
+        $plainBody = $plainView->render();
 
-		$plainView = $this->getView($templateName, 'txt');
-		$plainView->assignMultiple($variables);
-		$plainView->assign('charset', $charset);
-		$plainView->assign('title', $subject);
-		$plainBody = $plainView->render();
+        /** @var t3lib_mail_Message $message */
+        $message = t3lib_div::makeInstance('t3lib_mail_Message');
+        $message->setTo(array($toEmail => $toName))
+            ->setFrom(array($fromEmail => $fromName))
+            ->setSubject($subject)
+            ->setCharset($charset);
 
-		/** @var t3lib_mail_Message $message */
-		$message = t3lib_div::makeInstance('t3lib_mail_Message');
-		$message->setTo(array($toEmail => $toName))
-			->setFrom(array($fromEmail => $fromName))
-			->setSubject($subject)
-			->setCharset($charset);
+        if (false === $html) {
+            $message->setBody($plainBody, 'text/plain');
+        } else {
+            $message->setBody($htmlBody, 'text/html');
+            $message->addPart($plainBody, 'text/plain');
+        }
 
-		if (FALSE === $html) {
-			$message->setBody($plainBody, 'text/plain');
-		} else {
-			$message->setBody($htmlBody, 'text/html');
-			$message->addPart($plainBody, 'text/plain');
-		}
+        $message->send();
 
-		$message->send();
+        return $message->isSent();
+    }
 
-		return $message->isSent();
-	}
+    /**
+     * @param string $templateName
+     * @param string $format
+     * @return Tx_Fluid_View_StandaloneView
+     */
+    protected function getView($templateName, $format = 'html')
+    {
+        /** @var Tx_Fluid_View_StandaloneView $view */
+        $view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
+        $view->setFormat($format);
+        $view->getRequest()->setControllerExtensionName('Dmailsubscribe');
 
-	/**
-	 * @param string $templateName
-	 * @param string $format
-	 * @return Tx_Fluid_View_StandaloneView
-	 */
-	protected function getView($templateName, $format = 'html') {
-		/** @var Tx_Fluid_View_StandaloneView $view */
-		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-		$view->setFormat($format);
-		$view->getRequest()->setControllerExtensionName('Dmailsubscribe');
+        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $templateRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath']);
+        $layoutRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPath']);
+        $templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.' . $format;
 
-		$templateRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath']);
-		$layoutRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPath']);
-		$templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.' . $format;
+        $view->setTemplatePathAndFilename($templatePathAndFilename);
+        $view->setLayoutRootPath($layoutRootPath);
 
-		$view->setTemplatePathAndFilename($templatePathAndFilename);
-		$view->setLayoutRootPath($layoutRootPath);
-
-		return $view;
-	}
+        return $view;
+    }
 }

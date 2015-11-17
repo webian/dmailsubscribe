@@ -11,35 +11,33 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Direct Mail Subscribe',
-	'description' => 'Provides a frontend plugin to un-/subscribe to direct_mail newsletters',
-	'category' => 'plugin',
-	'author' => 'Björn Fromme',
-	'author_email' => 'fromme@dreipunktnull.com',
-	'author_company' => 'dreipunktnull',
-	'shy' => '',
-	'priority' => '',
-	'module' => '',
-	'state' => 'alpha',
-	'internal' => '',
-	'uploadfolder' => '0',
-	'createDirs' => '',
-	'modify_tables' => '',
-	'clearCacheOnLoad' => 0,
-	'lockType' => '',
-	'version' => '0.1',
-	'constraints' => array(
-		'depends' => array(
-			'extbase' => '6.0',
-			'fluid' => '6.0',
-			'typo3' => '6.0',
-			'direct_mail' => '',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
-		),
-	),
+    'title' => 'Direct Mail Subscribe',
+    'description' => 'Provides a frontend plugin to un-/subscribe to direct_mail newsletters',
+    'category' => 'plugin',
+    'author' => 'Björn Fromme',
+    'author_email' => 'fromme@dreipunktnull.com',
+    'author_company' => 'dreipunktnull',
+    'shy' => '',
+    'priority' => '',
+    'module' => '',
+    'state' => 'alpha',
+    'internal' => '',
+    'uploadfolder' => '0',
+    'createDirs' => '',
+    'modify_tables' => '',
+    'clearCacheOnLoad' => 0,
+    'lockType' => '',
+    'version' => '0.1',
+    'constraints' => array(
+        'depends' => array(
+            'extbase' => '6.0',
+            'fluid' => '6.0',
+            'typo3' => '6.0',
+            'direct_mail' => '',
+        ),
+        'conflicts' => array(
+        ),
+        'suggests' => array(
+        ),
+    ),
 );
-
-?>

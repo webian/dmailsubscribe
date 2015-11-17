@@ -30,11 +30,10 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
  */
-class Tx_Dmailsubscribe_ViewHelpers_Link_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $action = 'unsubscribe';
-
+class Tx_Dmailsubscribe_ViewHelpers_Link_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action = 'unsubscribe';
 }

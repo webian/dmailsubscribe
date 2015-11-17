@@ -30,32 +30,33 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers
  */
-abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper extends Tx_Fluid_ViewHelpers_Link_PageViewHelper {
+abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper extends Tx_Fluid_ViewHelpers_Link_PageViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action;
 
-	/**
-	 * @var string
-	 */
-	protected $action;
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('pageUid', 'integer', 'Uid of the page containing the subscription plugin.', true);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('pageUid', 'integer', 'Uid of the page containing the subscription plugin.', TRUE);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$pageUid = intval($this->arguments['pageUid']);
-		$additionalParams = array(
-			'a' => $this->action,
-			'c' => '###SYS_AUTHCODE###',
-			'u' => '###USER_uid###',
-		);
-		return rawurldecode(parent::render($pageUid, $additionalParams, 0, TRUE, TRUE, '', FALSE, TRUE, FALSE));
-	}
-
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $pageUid = intval($this->arguments['pageUid']);
+        $additionalParams = array(
+            'a' => $this->action,
+            'c' => '###SYS_AUTHCODE###',
+            'u' => '###USER_uid###',
+        );
+        return rawurldecode(parent::render($pageUid, $additionalParams, 0, true, true, '', false, true, false));
+    }
 }

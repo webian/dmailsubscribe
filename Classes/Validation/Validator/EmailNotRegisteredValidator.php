@@ -30,36 +30,38 @@
  * @package Dmailsubscribe
  * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
+class Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator
+{
+    /**
+     * @var Tx_Extbase_Object_ObjectManager
+     */
+    protected $objectManager;
 
-	/**
-	 * @var Tx_Extbase_Object_ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * @param Tx_Extbase_Object_ObjectManager $objectManager
+     * @return void
+     */
+    public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * @param Tx_Extbase_Object_ObjectManager $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function isValid($value)
+    {
+        /** @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository */
+        $repository = $this->objectManager->get('Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository');
 
-	/**
-	 * @param string $value
-	 * @return bool
-	 */
-	public function isValid($value) {
-		/** @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository */
-		$repository = $this->objectManager->get('Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository');
+        $result = $repository->findByEmail($value, $this->options['lookupPageIds']);
 
-		$result = $repository->findByEmail($value, $this->options['lookupPageIds']);
+        if (null !== $result) {
+            $this->addError('The given email address is already registered.', 1367223995);
+            return false;
+        }
 
-		if (NULL !== $result) {
-			$this->addError('The given email address is already registered.', 1367223995);
-			return FALSE;
-		}
-
-		return TRUE;
-	}
+        return true;
+    }
 }

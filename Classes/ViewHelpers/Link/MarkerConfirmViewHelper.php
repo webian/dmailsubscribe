@@ -31,11 +31,10 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
  */
-class Tx_Dmailsubscribe_ViewHelpers_Link_ConfirmMarkerViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $action = 'confirm';
-
+class Tx_Dmailsubscribe_ViewHelpers_Link_ConfirmMarkerViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action = 'confirm';
 }

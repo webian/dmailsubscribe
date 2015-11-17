@@ -31,161 +31,176 @@
  * @package Dmailsubscribe
  * @subpackage Domain\Model
  */
-class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObject_AbstractEntity
+{
+    /**
+     * @var string
+     * @validate EmailAddress
+     */
+    protected $email;
 
-	/**
-	 * @var string
-	 * @validate EmailAddress
-	 */
-	protected $email;
+    /**
+     * @var string
+     */
+    protected $gender;
 
-	/**
-	 * @var string
-	 */
-	protected $gender;
+    /**
+     * @var string
+     */
+    protected $name;
 
-	/**
-	 * @var string
-	 */
-	protected $name;
+    /**
+     * @var string
+     */
+    protected $company;
 
-	/**
-	 * @var string
-	 */
-	protected $company;
+    /**
+     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category>
+     */
+    protected $categories;
 
-	/**
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category>
-	 */
-	protected $categories;
+    /**
+     * @var boolean
+     */
+    protected $receiveHtml;
 
-	/**
-	 * @var boolean
-	 */
-	protected $receiveHtml;
+    /**
+     * @var boolean
+     */
+    protected $hidden;
 
-	/**
-	 * @var boolean
-	 */
-	protected $hidden;
+    public function __construct()
+    {
+        $this->categories = new Tx_Extbase_Persistence_ObjectStorage();
+        $this->receiveHtml = true;
+        $this->hidden = true;
+    }
 
-	public function __construct() {
-		$this->categories = new Tx_Extbase_Persistence_ObjectStorage();
-		$this->receiveHtml = TRUE;
-		$this->hidden = TRUE;
-	}
+    /**
+     * @param string $email
+     * @return void
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
-	/**
-	 * @param string $email
-	 * @return void
-	 */
-	public function setEmail($email) {
-		$this->email = $email;
-	}
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getEmail() {
-		return $this->email;
-	}
+    /**
+     * @param string $gender
+     * @return void
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    }
 
-	/**
-	 * @param string $gender
-	 * @return void
-	 */
-	public function setGender($gender) {
-		$this->gender = $gender;
-	}
+    /**
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getGender() {
-		return $this->gender;
-	}
+    /**
+     * @param string $name
+     * @return void
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
-	/**
-	 * @param string $name
-	 * @return void
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
+    /**
+     * @param string $company
+     * @return void
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+    }
 
-	/**
-	 * @param string $company
-	 * @return void
-	 */
-	public function setCompany($company) {
-		$this->company = $company;
-	}
+    /**
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getCompany() {
-		return $this->company;
-	}
+    /**
+     * @param Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category> $categories
+     * @return void
+     */
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+    }
 
-	/**
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category> $categories
-	 * @return void
-	 */
-	public function setCategories($categories) {
-		$this->categories = $categories;
-	}
+    /**
+     * @param Tx_Dmailsubscribe_Domain_Model_Category $category
+     * @return void
+     */
+    public function addCategory(Tx_Dmailsubscribe_Domain_Model_Category $category)
+    {
+        $this->categories->attach($category);
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Domain_Model_Category $category
-	 * @return void
-	 */
-	public function addCategory(Tx_Dmailsubscribe_Domain_Model_Category $category) {
-		$this->categories->attach($category);
-	}
+    /**
+     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category>
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 
-	/**
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category>
-	 */
-	public function getCategories() {
-		return $this->categories;
-	}
+    /**
+     * @param boolean $receiveHtml
+     * @return void
+     */
+    public function setReceiveHtml($receiveHtml)
+    {
+        $this->receiveHtml = (boolean) $receiveHtml;
+    }
 
-	/**
-	 * @param boolean $receiveHtml
-	 * @return void
-	 */
-	public function setReceiveHtml($receiveHtml) {
-		$this->receiveHtml = (boolean) $receiveHtml;
-	}
+    /**
+     * @return boolean
+     */
+    public function getReceiveHtml()
+    {
+        return (boolean) $this->receiveHtml;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function getReceiveHtml() {
-		return (boolean) $this->receiveHtml;
-	}
+    /**
+     * @param boolean $hidden
+     * @return void
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = (boolean) $hidden;
+    }
 
-	/**
-	 * @param boolean $hidden
-	 * @return void
-	 */
-	public function setHidden($hidden) {
-		$this->hidden = (boolean) $hidden;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function getHidden() {
-		return (boolean) $this->hidden;
-	}
-
+    /**
+     * @return boolean
+     */
+    public function getHidden()
+    {
+        return (boolean) $this->hidden;
+    }
 }

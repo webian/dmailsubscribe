@@ -30,11 +30,10 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Uri
  */
-class Tx_Dmailsubscribe_ViewHelpers_Uri_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $action = 'unsubscribe';
-
+class Tx_Dmailsubscribe_ViewHelpers_Uri_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action = 'unsubscribe';
 }

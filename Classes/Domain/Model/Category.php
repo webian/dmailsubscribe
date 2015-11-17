@@ -30,26 +30,27 @@
  * @package Dmailsubscribe
  * @subpackage Domain\Model
  */
-class Tx_Dmailsubscribe_Domain_Model_Category extends Tx_Extbase_DomainObject_AbstractEntity {
+class Tx_Dmailsubscribe_Domain_Model_Category extends Tx_Extbase_DomainObject_AbstractEntity
+{
+    /**
+     * @var string
+     */
+    protected $title;
 
-	/**
-	 * @var string
-	 */
-	protected $title;
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
-
-	/**
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
-
+    /**
+     * @param string $title
+     * @return void
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 }

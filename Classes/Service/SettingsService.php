@@ -31,55 +31,57 @@
  * @package Dmailsubscribe
  * @subpackage Service
  */
-class Tx_Dmailsubscribe_Service_SettingsService {
+class Tx_Dmailsubscribe_Service_SettingsService
+{
+    /**
+     * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+     */
+    protected $configurationManager;
 
-	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
-	 */
-	protected $configurationManager;
+    /**
+     * @var array
+     */
+    private static $settings;
 
-	/**
-	 * @var array
-	 */
-	private static $settings;
+    /**
+     * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+     * @return void
+     */
+    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
 
-	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
-	 * @return void
-	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-	}
+    /**
+     * Returns settings value for provided settings name
+     * or default value if not set. Value can be trimExploded
+     * by provided delimiter.
+     *
+     * @param string $name
+     * @param string $default
+     * @param string $explode
+     * @return mixed
+     * @api
+     */
+    public function getSetting($name, $default = null, $explode = null)
+    {
+        if (null === self::$settings) {
+            self::$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+        }
 
-	/**
-	 * Returns settings value for provided settings name
-	 * or default value if not set. Value can be trimExploded
-	 * by provided delimiter.
-	 *
-	 * @param string $name
-	 * @param string $default
-	 * @param string $explode
-	 * @return mixed
-	 * @api
-	 */
-	public function getSetting($name, $default = NULL, $explode = NULL) {
-		if (NULL === self::$settings) {
-			self::$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-		}
+        $setting = null;
 
-		$setting = NULL;
+        if (true === isset(self::$settings[$name])) {
+            if ('' !== self::$settings[$name]) {
+                $setting = self::$settings[$name];
+                if (null !== $explode) {
+                    $setting = t3lib_div::trimExplode($explode, $setting);
+                }
+            } else {
+                $setting = $default;
+            }
+        }
 
-		if (TRUE === isset(self::$settings[$name])) {
-			if ('' !== self::$settings[$name]) {
-				$setting = self::$settings[$name];
-				if (NULL !== $explode) {
-					$setting = t3lib_div::trimExplode($explode, $setting);
-				}
-			} else {
-				$setting = $default;
-			}
-		}
-
-		return $setting;
-	}
+        return $setting;
+    }
 }

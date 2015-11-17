@@ -31,70 +31,73 @@
  * @package Dmailsubscribe
  * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator {
+class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator
+{
+    /**
+     * @var Tx_Dmailsubscribe_Service_SettingsService
+     */
+    protected $settingsService;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Service_SettingsService
-	 */
-	protected $settingsService;
+    /**
+     * @var Tx_Extbase_Object_ObjectManager
+     */
+    protected $objectManager;
 
-	/**
-	 * @var Tx_Extbase_Object_ObjectManager
-	 */
-	protected $objectManager;
+    /**
+     * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+     * @return void
+     */
+    public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
-	 * @return void
-	 */
-	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
-		$this->settingsService = $settingsService;
-	}
+    /**
+     * @param Tx_Extbase_Object_ObjectManager $objectManager
+     * @return void
+     */
+    public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-	/**
-	 * @param Tx_Extbase_Object_ObjectManager $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    /**
+     * Overrides parent::validate() to add notEmptyValidators
+     * for all required fields and emailNotRegisteredValidator
+     * to email field
+     *
+     * @param mixed $object
+     * @throws Tx_Extbase_Validation_Exception_InvalidSubject
+     * @return Tx_Extbase_Error_Result
+     */
+    public function validate($object)
+    {
+        if (false === $this->canValidate($object)) {
+            throw new Tx_Extbase_Validation_Exception_InvalidSubject(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
+        }
 
-	/**
-	 * Overrides parent::validate() to add notEmptyValidators
-	 * for all required fields and emailNotRegisteredValidator
-	 * to email field
-	 *
-	 * @param mixed $object
-	 * @throws Tx_Extbase_Validation_Exception_InvalidSubject
-	 * @return Tx_Extbase_Error_Result
-	 */
-	public function validate($object) {
-		if (FALSE === $this->canValidate($object)) {
-			throw new Tx_Extbase_Validation_Exception_InvalidSubject(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
-		}
+        $requiredFields = $this->settingsService->getSetting('requiredFields', array(), ',');
+        $lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
 
-		$requiredFields = $this->settingsService->getSetting('requiredFields', array(), ',');
-		$lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
+        /** @var Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator $emailNotRegisteredValidator */
+        $emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
+        $this->addPropertyValidator('email', $emailNotRegisteredValidator);
 
-		/** @var Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator $emailNotRegisteredValidator */
-		$emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
-		$this->addPropertyValidator('email', $emailNotRegisteredValidator);
+        foreach ($requiredFields as $field) {
+            /** @var Tx_Extbase_Validation_Validator_NotEmptyValidator $notEmptyValidator */
+            $notEmptyValidator = $this->objectManager->get('Tx_Extbase_Validation_Validator_NotEmptyValidator');
+            $this->addPropertyValidator($field, $notEmptyValidator);
+        }
 
-		foreach ($requiredFields as $field) {
-			/** @var Tx_Extbase_Validation_Validator_NotEmptyValidator $notEmptyValidator */
-			$notEmptyValidator = $this->objectManager->get('Tx_Extbase_Validation_Validator_NotEmptyValidator');
-			$this->addPropertyValidator($field, $notEmptyValidator);
-		}
+        return parent::validate($object);
+    }
 
-		return parent::validate($object);
-	}
-
-	/**
-	 * @param object $object
-	 * @return boolean
-	 */
-	public function canValidate($object) {
-		return $object instanceof Tx_Dmailsubscribe_Domain_Model_Subscription;
-	}
-
+    /**
+     * @param object $object
+     * @return boolean
+     */
+    public function canValidate($object)
+    {
+        return $object instanceof Tx_Dmailsubscribe_Domain_Model_Subscription;
+    }
 }
