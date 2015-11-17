@@ -49,3 +49,11 @@ ToDo
 
 - currently only tt_address is supported
 - flexible CAPTCHA support
+
+CodeStyle - Fixer
+-----------------
+
+::
+
+    $ composer global require fabpot/php-cs-fixer
+    $ php-cs-fixer fix --config-file Build/.php_cs
