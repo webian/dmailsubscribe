@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Validation\Validator;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,14 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Domain\Model\Subscription;
+use DPN\Dmailsubscribe\Service\SettingsService;
+use TYPO3\CMS\Extbase\Error\Result;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Validation\Exception\InvalidSubjectException;
+use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
+use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
+
 /**
  * Validator: Subscription object validation wrapper
  *
@@ -31,32 +42,34 @@
  * @package Dmailsubscribe
  * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Extbase_Validation_Validator_GenericObjectValidator
+class SubscriptionValidator extends GenericObjectValidator
 {
     /**
-     * @var Tx_Dmailsubscribe_Service_SettingsService
+     * @var \DPN\Dmailsubscribe\Service\SettingsService
+     * @inject
      */
     protected $settingsService;
 
     /**
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @inject
      */
     protected $objectManager;
 
     /**
-     * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+     * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
      * @return void
      */
-    public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
     }
 
     /**
-     * @param Tx_Extbase_Object_ObjectManager $objectManager
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
      * @return void
      */
-    public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager)
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -67,25 +80,25 @@ class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Ex
      * to email field
      *
      * @param mixed $object
-     * @throws Tx_Extbase_Validation_Exception_InvalidSubject
-     * @return Tx_Extbase_Error_Result
+     * @throws InvalidSubjectException
+     * @return Result
      */
     public function validate($object)
     {
         if (false === $this->canValidate($object)) {
-            throw new Tx_Extbase_Validation_Exception_InvalidSubject(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
+            throw new InvalidSubjectException(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
         }
 
         $requiredFields = $this->settingsService->getSetting('requiredFields', array(), ',');
         $lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
 
-        /** @var Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator $emailNotRegisteredValidator */
-        $emailNotRegisteredValidator = $this->objectManager->get('Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator', array('lookupPageIds' => $lookupPageIds));
+        /** @var EmailNotRegisteredValidator $emailNotRegisteredValidator */
+        $emailNotRegisteredValidator = $this->objectManager->get(EmailNotRegisteredValidator::class, ['lookupPageIds' => $lookupPageIds]);
         $this->addPropertyValidator('email', $emailNotRegisteredValidator);
 
         foreach ($requiredFields as $field) {
-            /** @var Tx_Extbase_Validation_Validator_NotEmptyValidator $notEmptyValidator */
-            $notEmptyValidator = $this->objectManager->get('Tx_Extbase_Validation_Validator_NotEmptyValidator');
+            /** @var NotEmptyValidator $notEmptyValidator */
+            $notEmptyValidator = $this->objectManager->get(NotEmptyValidator::class);
             $this->addPropertyValidator($field, $notEmptyValidator);
         }
 
@@ -98,6 +111,6 @@ class Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator extends Tx_Ex
      */
     public function canValidate($object)
     {
-        return $object instanceof Tx_Dmailsubscribe_Domain_Model_Subscription;
+        return $object instanceof Subscription;
     }
 }

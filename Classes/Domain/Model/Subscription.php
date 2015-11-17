@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
 /**
  * Subscription Model
  *
@@ -31,7 +37,7 @@
  * @package Dmailsubscribe
  * @subpackage Domain\Model
  */
-class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObject_AbstractEntity
+class Subscription extends AbstractEntity
 {
     /**
      * @var string
@@ -55,7 +61,7 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
     protected $company;
 
     /**
-     * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DPN\Dmailsubscribe\Domain\Model\Category>
      */
     protected $categories;
 
@@ -71,9 +77,17 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
 
     public function __construct()
     {
-        $this->categories = new Tx_Extbase_Persistence_ObjectStorage();
+        $this->categories = new ObjectStorage();
         $this->receiveHtml = true;
         $this->hidden = true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**
@@ -88,9 +102,9 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
     /**
      * @return string
      */
-    public function getEmail()
+    public function getGender()
     {
-        return $this->email;
+        return $this->gender;
     }
 
     /**
@@ -105,9 +119,9 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
     /**
      * @return string
      */
-    public function getGender()
+    public function getName()
     {
-        return $this->gender;
+        return $this->name;
     }
 
     /**
@@ -122,9 +136,9 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
     /**
      * @return string
      */
-    public function getName()
+    public function getCompany()
     {
-        return $this->name;
+        return $this->company;
     }
 
     /**
@@ -137,15 +151,24 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
     }
 
     /**
-     * @return string
+     * @param \DPN\Dmailsubscribe\Domain\Model\Category $category
+     * @return void
      */
-    public function getCompany()
+    public function addCategory(Category $category)
     {
-        return $this->company;
+        $this->categories->attach($category);
     }
 
     /**
-     * @param Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category> $categories
+     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DPN\Dmailsubscribe\Domain\Model\Category>
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\DPN\Dmailsubscribe\Domain\Model\Category> $categories
      * @return void
      */
     public function setCategories($categories)
@@ -154,20 +177,11 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
     }
 
     /**
-     * @param Tx_Dmailsubscribe_Domain_Model_Category $category
-     * @return void
+     * @return boolean
      */
-    public function addCategory(Tx_Dmailsubscribe_Domain_Model_Category $category)
+    public function getReceiveHtml()
     {
-        $this->categories->attach($category);
-    }
-
-    /**
-     * @return Tx_Extbase_Persistence_ObjectStorage<Tx_Dmailsubscribe_Domain_Model_Category>
-     */
-    public function getCategories()
-    {
-        return $this->categories;
+        return (boolean)$this->receiveHtml;
     }
 
     /**
@@ -176,15 +190,15 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
      */
     public function setReceiveHtml($receiveHtml)
     {
-        $this->receiveHtml = (boolean) $receiveHtml;
+        $this->receiveHtml = (boolean)$receiveHtml;
     }
 
     /**
      * @return boolean
      */
-    public function getReceiveHtml()
+    public function getHidden()
     {
-        return (boolean) $this->receiveHtml;
+        return (boolean)$this->hidden;
     }
 
     /**
@@ -193,14 +207,6 @@ class Tx_Dmailsubscribe_Domain_Model_Subscription extends Tx_Extbase_DomainObjec
      */
     public function setHidden($hidden)
     {
-        $this->hidden = (boolean) $hidden;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getHidden()
-    {
-        return (boolean) $this->hidden;
+        $this->hidden = (boolean)$hidden;
     }
 }

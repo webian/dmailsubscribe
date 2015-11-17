@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Validation\Validator;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+
 /**
  * Validator: Email must not be registered
  *
@@ -30,18 +37,19 @@
  * @package Dmailsubscribe
  * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator
+class EmailNotRegisteredValidator extends AbstractValidator
 {
     /**
-     * @var Tx_Extbase_Object_ObjectManager
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @inject
      */
     protected $objectManager;
 
     /**
-     * @param Tx_Extbase_Object_ObjectManager $objectManager
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
      * @return void
      */
-    public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager)
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
@@ -52,8 +60,8 @@ class Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator extends
      */
     public function isValid($value)
     {
-        /** @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository */
-        $repository = $this->objectManager->get('Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository');
+        /** @var SubscriptionRepository $repository */
+        $repository = $this->objectManager->get(SubscriptionRepository::class);
 
         $result = $repository->findByEmail($value, $this->options['lookupPageIds']);
 

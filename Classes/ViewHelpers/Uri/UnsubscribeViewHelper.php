@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers\Uri;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,15 +25,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\ViewHelpers\AbstractUriViewHelper;
+
 /**
- * Unsubscribtion URI generating VieWHelper
+ * Unsubscription URI generating VieWHelper
  *
  * Generates an URI to the "unsubscribe" action.
  *
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Uri
  */
-class Tx_Dmailsubscribe_ViewHelpers_Uri_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper
+class UnsubscribeViewHelper extends AbstractUriViewHelper
 {
     /**
      * @var string

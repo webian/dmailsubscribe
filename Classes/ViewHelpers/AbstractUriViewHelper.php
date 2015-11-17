@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,15 +25,19 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Service\SettingsService;
+use TYPO3\CMS\Extbase\Configuration\Exception as ConfigurationException;
+use TYPO3\CMS\Fluid\ViewHelpers\Link\ActionViewHelper;
+
 /**
- * Class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper
+ * Class AbstractUriViewHelper
  *
  * Base class for uri-generating ViewHelpers
  *
  * @package Dmailsubscribe
  * @subpackage ViewHelpers
  */
-abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fluid_ViewHelpers_Uri_ActionViewHelper
+abstract class AbstractUriViewHelper extends ActionViewHelper
 {
     /**
      * @var string
@@ -38,15 +45,16 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fl
     protected $action;
 
     /**
-     * @var Tx_Dmailsubscribe_Service_SettingsService
+     * @var \DPN\Dmailsubscribe\Service\SettingsService
+     * @inject
      */
     protected $settingsService;
 
     /**
-     * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+     * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
      * @return void
      */
-    public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
     }
@@ -61,13 +69,13 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fl
     }
 
     /**
-     * @throws Tx_Extbase_Configuration_Exception
+     * @throws ConfigurationException
      * @return string
      */
     public function render()
     {
         if (null === ($pluginPageUid = $this->settingsService->getSetting('pluginPageUid'))) {
-            throw new Tx_Extbase_Configuration_Exception('Plugin page Uid is not configured.');
+            throw new ConfigurationException('Plugin page Uid is not configured.');
         }
 
         $arguments = array(
@@ -75,6 +83,6 @@ abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper extends Tx_Fl
             'confirmationCode' => $this->arguments['confirmationCode'],
         );
 
-        return parent::render($this->action, $arguments, 'Subscription', null, null, $pluginPageUid, 0, false, true, '', '', false, array(), true);
+        return parent::render($this->action, $arguments, 'Subscription', null, null, $pluginPageUid, 0, false, true, '', '', false, [], true);
     }
 }

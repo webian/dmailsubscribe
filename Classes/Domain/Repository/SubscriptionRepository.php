@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Domain\Repository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,30 +25,35 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Domain\Model\Subscription;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
 /**
  * Subscription Repository
  *
  * @package Dmailsubscribe
  * @subpackage Domain\Repository
  */
-class Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository extends Tx_Extbase_Persistence_Repository
+class SubscriptionRepository extends Repository
 {
     /**
      * Fetches a single subscription by provided email address
      *
      * @param string $email
      * @param array $lookupPageIds
-     * @return NULL|Tx_Dmailsubscribe_Doman_Model_Subscription
+     * @return Subscription
      */
     public function findByEmail($email, array $lookupPageIds = array())
     {
         $query = $this->createQuery();
 
-        $query->getQuerySettings()->setRespectEnableFields(false);
+        $query->getQuerySettings()->setIgnoreEnableFields(true);
 
         if (0 < count($lookupPageIds)) {
             $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
-            $combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
+            // @TODO: Lookup replacement
+            $combinedPageIds = GeneralUtility::array_merge($defaultPageIds, $lookupPageIds);
             $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
         }
 
@@ -62,17 +70,18 @@ class Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository extends Tx_Extb
      *
      * @param integer $uid
      * @param array $lookupPageIds
-     * @return NULL|Tx_Dmailsubscribe_Doman_Model_Subscription
+     * @return Subscription
      */
     public function findNotConfirmedByUid($uid, array $lookupPageIds = array())
     {
+
         $query = $this->createQuery();
 
-        $query->getQuerySettings()->setRespectEnableFields(false);
+        $query->getQuerySettings()->setIgnoreEnableFields(true);
 
         if (0 < count($lookupPageIds)) {
             $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
-            $combinedPageIds = t3lib_div::array_merge($defaultPageIds, $lookupPageIds);
+            $combinedPageIds = GeneralUtility::array_merge($defaultPageIds, $lookupPageIds);
             $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
         }
 

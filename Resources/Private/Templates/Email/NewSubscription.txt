@@ -1,4 +1,4 @@
-{namespace d=Tx_Dmailsubscribe_ViewHelpers}
+{namespace d=DPN\Dmailsubscribe\ViewHelpers}
 
 <f:layout name="PlainEmail" />
 

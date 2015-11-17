@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers\Link;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\ViewHelpers\AbstractLinkViewHelper;
+
 /**
  * Unsubscription link generating VieWHelper
  *
@@ -30,7 +35,7 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
  */
-class Tx_Dmailsubscribe_ViewHelpers_Link_UnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper
+class UnsubscribeViewHelper extends AbstractLinkViewHelper
 {
     /**
      * @var string

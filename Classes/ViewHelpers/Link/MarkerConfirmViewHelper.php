@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers\Link;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\ViewHelpers\AbstractMarkerLinkViewHelper;
+
 /**
  * Confirmation link generating VieWHelper
  *
@@ -31,7 +36,7 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
  */
-class Tx_Dmailsubscribe_ViewHelpers_Link_ConfirmMarkerViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper
+class ConfirmMarkerViewHelper extends AbstractMarkerLinkViewHelper
 {
     /**
      * @var string

@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Controller;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,17 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Domain\Model\Category;
+use DPN\Dmailsubscribe\Domain\Model\Subscription;
+use DPN\Dmailsubscribe\Domain\Repository\CategoryRepository;
+use DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository;
+use DPN\Dmailsubscribe\Service\EmailService;
+use DPN\Dmailsubscribe\Service\SettingsService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+
 /**
  * Subscription Controller
  *
@@ -31,46 +45,47 @@
  * @package Dmailsubscribe
  * @subpackage Controller
  */
-class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC_Controller_ActionController
+class SubscriptionController extends ActionController
 {
     /**
-     * @var Tx_Dmailsubscribe_Domain_Repository_CategoryRepository
+     * @var CategoryRepository
+     * @inject
      */
     protected $categoryRepository;
 
     /**
-     * @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository
+     * @var SubscriptionRepository
      */
     protected $subscriptionRepository;
 
     /**
-     * @var Tx_Dmailsubscribe_Service_SettingsService
+     * @var SettingsService
      */
     protected $settingsService;
 
     /**
-     * @param Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository
+     * @param CategoryRepository $repository
      * @return void
      */
-    public function injectCategoryRepository(Tx_Dmailsubscribe_Domain_Repository_CategoryRepository $repository)
+    public function injectCategoryRepository(CategoryRepository $repository)
     {
         $this->categoryRepository = $repository;
     }
 
     /**
-     * @param Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository
+     * @param SubscriptionRepository $repository
      * @return void
      */
-    public function injectSubscriptionRepository(Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository)
+    public function injectSubscriptionRepository(SubscriptionRepository $repository)
     {
         $this->subscriptionRepository = $repository;
     }
 
     /**
-     * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
+     * @param SettingsService $settingsService
      * @return void
      */
-    public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService)
+    public function injectSettingsService(SettingsService $settingsService)
     {
         $this->settingsService = $settingsService;
     }
@@ -85,30 +100,30 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
      * action being either 'confirm' or 'unsubscribe' and PID being the
      * id of the page including this plugin.
      *
-     * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
+     * @param Subscription $subscription
      * @return void
      * @ignorevalidation $subscription
      */
-    public function newAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription = null)
+    public function newAction(Subscription $subscription = null)
     {
-        if (null !== t3lib_div::_GET('a') && null !== t3lib_div::_GET('c') && null !== t3lib_div::_GET('u')) {
-            $action = t3lib_div::_GET('a');
+        if (null !== GeneralUtility::_GET('a') && null !== GeneralUtility::_GET('c') && null !== GeneralUtility::_GET('u')) {
+            $action = GeneralUtility::_GET('a');
             if ('confirm' == $action || 'unsubscribe' == $action) {
                 $arguments = array(
-                    'confirmationCode' => t3lib_div::_GET('c'),
-                    'subscriptionUid'  => t3lib_div::_GET('u'),
+                    'confirmationCode' => GeneralUtility::_GET('c'),
+                    'subscriptionUid' => GeneralUtility::_GET('u'),
                 );
                 $this->redirect($action, null, null, $arguments);
             }
         }
 
-        $categoryPids     = $this->settingsService->getSetting('categoryPids', array(), ',');
+        $categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
         $additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', array(), ','), true);
-        $requiredFields   = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), true);
+        $requiredFields = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), true);
 
         $selectedCategories = array();
         if (null === ($originalRequest = $this->request->getOriginalRequest())) {
-            $subscription = $this->objectManager->create('Tx_Dmailsubscribe_Domain_Model_Subscription');
+            $subscription = $this->objectManager->get(Subscription::class);
         } else {
             $subscription = $originalRequest->getArgument('subscription');
             if ($originalRequest->hasArgument('categories')) {
@@ -117,13 +132,14 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
         }
 
         $selectableCategories = $this->categoryRepository->findAllInPids($categoryPids);
-        $formCategories  = array();
+        $formCategories = array();
 
+        /** @var Category $category */
         foreach ($selectableCategories as $category) {
             $formCategories[] = array(
-                'uid'     => $category->getUid(),
-                'title'   => $category->getTitle(),
-                'checked' => (boolean) $selectedCategories[$category->getUid()],
+                'uid' => $category->getUid(),
+                'title' => $category->getTitle(),
+                'checked' => (boolean)$selectedCategories[$category->getUid()],
             );
         }
 
@@ -139,12 +155,12 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
     }
 
     /**
-     * @param Tx_Dmailsubscribe_Domain_Model_Subscription $subscription
+     * @param Subscription $subscription
      * @param array $categories
      * @return void
-     * @validate $subscription Tx_Dmailsubscribe_Validation_Validator_SubscriptionValidator
+     * @validate $subscription \DPN\Dmailsubscribe\Validation\Validator\SubscriptionValidator
      */
-    public function subscribeAction(Tx_Dmailsubscribe_Domain_Model_Subscription $subscription, $categories = array())
+    public function subscribeAction(Subscription $subscription, $categories = array())
     {
         $categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
 
@@ -155,23 +171,32 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
 
         $this->subscriptionRepository->add($subscription);
 
-        /** @var Tx_Extbase_Persistence_Manager $persistenceManager */
-        $persistenceManager = $this->objectManager->get('Tx_Extbase_Persistence_Manager');
+        /** @var PersistenceManagerInterface $persistenceManager */
+        $persistenceManager = $this->objectManager->get(PersistenceManagerInterface::class);
         $persistenceManager->persistAll();
 
         $templateVariables = array(
-            'subscription'     => $subscription,
+            'subscription' => $subscription,
             'confirmationCode' => $this->generateConfirmationCode($subscription->getUid()),
         );
 
-        /** @var Tx_Dmailsubscribe_Service_EmailService $emailService */
-        $emailService = $this->objectManager->get('Tx_Dmailsubscribe_Service_EmailService');
+        /** @var EmailService $emailService */
+        $emailService = $this->objectManager->get(EmailService::class);
         $emailService->send($subscription->getEmail(), $subscription->getName(), 'NewSubscription', $subscription->getReceiveHtml(), $templateVariables);
 
-        $message = Tx_Extbase_Utility_Localization::translate('message.subscribe.success', $this->extensionName);
-        $this->flashMessageContainer->add($message);
+        $message = LocalizationUtility::translate('message.subscribe.success', $this->extensionName);
+        $this->addFlashMessage($message);
 
         $this->redirect('message');
+    }
+
+    /**
+     * @param integer $uid
+     * @return string
+     */
+    private function generateConfirmationCode($uid)
+    {
+        return GeneralUtility::stdAuthCode($uid);
     }
 
     /**
@@ -181,21 +206,21 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
      */
     public function confirmAction($subscriptionUid, $confirmationCode)
     {
-        $muteConfirmationErrors = (boolean) $this->settingsService->getSetting('muteConfirmationErrors', true);
+        $muteConfirmationErrors = (boolean)$this->settingsService->getSetting('muteConfirmationErrors', true);
 
         if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
             if (false === $muteConfirmationErrors) {
-                $message = Tx_Extbase_Utility_Localization::translate('message.confirm.confirmation_code_invalid', $this->extensionName);
-                $this->flashMessageContainer->add($message);
+                $message = LocalizationUtility::translate('message.confirm.confirmation_code_invalid', $this->extensionName);
+                $this->addFlashMessage($message);
                 $this->redirect('message');
             }
         }
 
-        /** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
+        /** @var Subscription $subscription */
         if (null === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid))) {
             if (false === $muteConfirmationErrors) {
-                $message = Tx_Extbase_Utility_Localization::translate('message.confirm.subscription_not_found', $this->extensionName);
-                $this->flashMessageContainer->add($message);
+                $message = LocalizationUtility::translate('message.confirm.subscription_not_found', $this->extensionName);
+                $this->addFlashMessage($message);
                 $this->redirect('message');
             }
         }
@@ -203,12 +228,23 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
         if (true === $confirmationCodeValid && null !== $subscription && true === $subscription->getHidden()) {
             $subscription->setHidden(false);
             $this->subscriptionRepository->update($subscription);
-            $message = Tx_Extbase_Utility_Localization::translate('message.confirm.success', $this->extensionName);
-            $this->flashMessageContainer->add($message);
+            $message = LocalizationUtility::translate('message.confirm.success', $this->extensionName);
+            $this->addFlashMessage($message);
             $this->redirect('message');
         }
 
         $this->redirect('new');
+    }
+
+    /**
+     * @param integer $uid
+     * @param string $confirmationCode
+     * @return boolean
+     */
+    private function validateConfirmationCode($uid, $confirmationCode)
+    {
+        $confirmationCodeForUid = $this->generateConfirmationCode($uid);
+        return $confirmationCodeForUid === $confirmationCode;
     }
 
     /**
@@ -218,29 +254,29 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
      */
     public function unsubscribeAction($subscriptionUid, $confirmationCode)
     {
-        $muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', true);
+        $muteUnsubscribeErrors = (boolean)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
 
         if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
             if (false === $muteUnsubscribeErrors) {
-                $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.confirmation_code_invalid', $this->extensionName);
-                $this->flashMessageContainer->add($message);
+                $message = LocalizationUtility::translate('message.unsubscribe.confirmation_code_invalid', $this->extensionName);
+                $this->addFlashMessage($message);
                 $this->redirect('message');
             }
         }
 
-        /** @var Tx_Dmailsubscribe_Domain_Model_Subscription $subscription */
+        /** @var Subscription $subscription */
         if (null === ($subscription = $this->subscriptionRepository->findByUid($subscriptionUid))) {
             if (false === $muteUnsubscribeErrors) {
-                $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
-                $this->flashMessageContainer->add($message);
+                $message = LocalizationUtility::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
+                $this->addFlashMessage($message);
                 $this->redirect('message');
             }
         }
 
         if (true === $confirmationCodeValid && null !== $subscription) {
             $this->subscriptionRepository->remove($subscription);
-            $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
-            $this->flashMessageContainer->add($message);
+            $message = LocalizationUtility::translate('message.unsubscribe.success', $this->extensionName);
+            $this->addFlashMessage($message);
             $this->redirect('message');
         }
 
@@ -254,17 +290,17 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
     public function unsubscribeformAction($email = null)
     {
         if (null !== $email) {
-            $muteUnsubscribeErrors = (boolean) $this->settingsService->getSetting('muteUnsubscribeErrors', true);
+            $muteUnsubscribeErrors = (boolean)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
             $lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
             if (null === ($subscription = $this->subscriptionRepository->findByEmail($email, $lookupPageIds))) {
                 if (false === $muteUnsubscribeErrors) {
-                    $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
-                    $this->flashMessageContainer->add($message);
+                    $message = LocalizationUtility::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
+                    $this->addFlashMessage($message);
                 }
             } else {
                 $this->subscriptionRepository->remove($subscription);
-                $message = Tx_Extbase_Utility_Localization::translate('message.unsubscribe.success', $this->extensionName);
-                $this->flashMessageContainer->add($message);
+                $message = LocalizationUtility::translate('message.unsubscribe.success', $this->extensionName);
+                $this->addFlashMessage($message);
                 $this->redirect('message');
             }
         }
@@ -280,26 +316,6 @@ class Tx_Dmailsubscribe_Controller_SubscriptionController extends Tx_Extbase_MVC
      */
     public function messageAction()
     {
-    }
-
-    /**
-     * @param integer $uid
-     * @return string
-     */
-    private function generateConfirmationCode($uid)
-    {
-        return t3lib_div::stdAuthCode($uid);
-    }
-
-    /**
-     * @param integer $uid
-     * @param string $confirmationCode
-     * @return boolean
-     */
-    private function validateConfirmationCode($uid, $confirmationCode)
-    {
-        $confirmationCodeForUid = $this->generateConfirmationCode($uid);
-        return $confirmationCodeForUid === $confirmationCode;
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Service;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,9 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+
 /**
  * Settings Service
  *
@@ -31,23 +37,24 @@
  * @package Dmailsubscribe
  * @subpackage Service
  */
-class Tx_Dmailsubscribe_Service_SettingsService
+class SettingsService
 {
-    /**
-     * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
-     */
-    protected $configurationManager;
-
     /**
      * @var array
      */
     private static $settings;
 
     /**
-     * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager)
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
     {
         $this->configurationManager = $configurationManager;
     }
@@ -66,7 +73,7 @@ class Tx_Dmailsubscribe_Service_SettingsService
     public function getSetting($name, $default = null, $explode = null)
     {
         if (null === self::$settings) {
-            self::$settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+            self::$settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
         }
 
         $setting = null;
@@ -75,7 +82,7 @@ class Tx_Dmailsubscribe_Service_SettingsService
             if ('' !== self::$settings[$name]) {
                 $setting = self::$settings[$name];
                 if (null !== $explode) {
-                    $setting = t3lib_div::trimExplode($explode, $setting);
+                    $setting = GeneralUtility::trimExplode($explode, $setting);
                 }
             } else {
                 $setting = $default;

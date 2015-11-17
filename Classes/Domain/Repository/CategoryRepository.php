@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Domain\Repository;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,20 +25,23 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
 /**
  * Category Repository
  *
  * @package Dmailsubscribe
  * @subpackage Domain\Repository
  */
-class Tx_Dmailsubscribe_Domain_Repository_CategoryRepository extends Tx_Extbase_Persistence_Repository
+class CategoryRepository extends Repository
 {
     /**
      * Fetches all categories from provided storage pids
      * or - if omitted - all available
      *
      * @param array $storagePageIds
-     * @return Tx_Extbase_Persistence_QueryResultInterface
+     * @return QueryResultInterface
      */
     public function findAllInPids(array $storagePageIds = array())
     {
@@ -53,7 +59,7 @@ class Tx_Dmailsubscribe_Domain_Repository_CategoryRepository extends Tx_Extbase_
     /**
      * @param array $uids
      * @param array $storagePageIds
-     * @return NULL|Tx_Extbase_Persistence_QueryResultInterface
+     * @return QueryResultInterface
      */
     public function findAllByUids(array $uids, array $storagePageIds = array())
     {
