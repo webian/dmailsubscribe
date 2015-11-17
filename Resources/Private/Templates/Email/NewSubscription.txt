@@ -1,4 +1,6 @@
-{namespace d=DPN\Dmailsubscribe\ViewHelpers}
+<html data-namespace-typo3-fluid="true"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:d="http://typo3.org/ns/DPN/Dmailsubscribe/ViewHelpers">
 
 <f:layout name="PlainEmail" />
 
@@ -10,3 +12,4 @@ to confirm your subscription:  <d:uri.confirm subscriptionUid="{subscription.uid
 
 To unscubscribe from our newsletter click the following link: <d:uri.unsubscribe subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}" />
 </f:section>
+</html>
