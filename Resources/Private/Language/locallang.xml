@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <T3locallang>
-	<meta type="array">
-		<type>module</type>
-		<description>Language labels for the Direct Mail Subscribe extension</description>
-	</meta>
-	<data type="array">
-		<languageKey index="default" type="array">
+    <meta type="array">
+        <type>module</type>
+        <description>Language labels for the Direct Mail Subscribe extension</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
             <label index="flexforms.sheet_general">General settings</label>
             <label index="flexforms.sheet_email">Email settings</label>
             <label index="flexforms.additional_fields">Additional fields</label>
@@ -13,26 +13,35 @@
             <label index="flexforms.mute_confrmation_errors">Mute confirmation errors</label>
             <label index="flexforms.mute_unsubscribe_errors">Mute unsubscribe errors</label>
             <label index="flexforms.lookup_pids">Pids in which to look up subscription (tt_address) records</label>
-            <label index="flexforms.category_pids">Pids in which to look up category (sys_dmail_category) records</label>
-            <label index="flexforms.plugin_page_uid">Page UID where plugin is located (used to generate unsubscribe links)</label>
+            <label index="flexforms.category_pids">Pids in which to look up category (sys_dmail_category) records
+            </label>
+            <label index="flexforms.plugin_page_uid">Page UID where plugin is located (used to generate unsubscribe
+                links)
+            </label>
             <label index="flexforms.from_email">Email of sender used in confirmation emails</label>
             <label index="flexforms.from_name">Name of sender used in confirmation emails</label>
             <label index="flexforms.subject">Subject of subscription confirmation email</label>
-			<label index="label.gender">Title</label>
-			<label index="label.name">Name</label>
-			<label index="label.company">Company</label>
-			<label index="label.email">Email</label>
-			<label index="label.receiveHtml">HTML emails</label>
-			<label index="label.categories">Categories</label>
-			<label index="label.subscribe">Subscribe</label>
-			<label index="label.unsubscribe">Unsubscribe</label>
-			<label index="message.subscribe.success">You have been subscribed to the newsletter. A confirmation email has been sent.</label>
-			<label index="message.confirm.confirmation_code_invalid">The provided confirmation code is invalid.</label>
-			<label index="message.confirm.subscription_not_found">This subscription could not be found or is already confirmed.</label>
-			<label index="message.confirm.success">Your subscription has been confirmed.</label>
-			<label index="message.unsubscribe.confirmation_code_invalid">The provided confirmation code is invalid.</label>
-			<label index="message.unsubscribe.subscription_not_found">This subscription could not be found.</label>
-			<label index="message.unsubscribe.success">You have been successfully unsubscribed from our newsletter.</label>
-		</languageKey>
-	</data>
+            <label index="label.gender">Title</label>
+            <label index="label.name">Name</label>
+            <label index="label.company">Company</label>
+            <label index="label.email">Email</label>
+            <label index="label.receiveHtml">HTML emails</label>
+            <label index="label.categories">Categories</label>
+            <label index="label.subscribe">Subscribe</label>
+            <label index="label.unsubscribe">Unsubscribe</label>
+            <label index="message.subscribe.success">You have been subscribed to the newsletter. A confirmation email
+                has been sent.
+            </label>
+            <label index="message.confirm.confirmation_code_invalid">The provided confirmation code is invalid.</label>
+            <label index="message.confirm.subscription_not_found">This subscription could not be found or is already
+                confirmed.
+            </label>
+            <label index="message.confirm.success">Your subscription has been confirmed.</label>
+            <label index="message.unsubscribe.confirmation_code_invalid">The provided confirmation code is invalid.
+            </label>
+            <label index="message.unsubscribe.subscription_not_found">This subscription could not be found.</label>
+            <label index="message.unsubscribe.success">You have been successfully unsubscribed from our newsletter.
+            </label>
+        </languageKey>
+    </data>
 </T3locallang>
