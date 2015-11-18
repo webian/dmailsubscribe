@@ -1,8 +1,16 @@
 plugin.tx_dmailsubscribe {
     view {
-        templateRootPath = {$plugin.tx_dmailsubscribe.view.templateRootPath}
-        partialRootPath = {$plugin.tx_dmailsubscribe.view.partialRootPath}
-        layoutRootPath = {$plugin.tx_dmailsubscribe.view.layoutRootPath}
+        templateRootPath >
+        layoutRootPaths.0 = EXT:dmailsubscribe/Resources/Private/Layouts/
+        layoutRootPaths.10 = {$plugin.tx_dmailsubscribe.view.layoutRootPath}
+
+        templateRootPath >
+        templateRootPaths.0 = EXT:dmailsubscribe/Resources/Private/Templates/
+        templateRootPaths.10 = {$plugin.tx_dmailsubscribe.view.templateRootPath}
+
+        partialRootPath >
+        partialRootPaths.0 = EXT:dmailsubscribe/Resources/Private/Partials/
+        partialRootPaths.10 = {$plugin.tx_dmailsubscribe.view.partialRootPath}
     }
 
     persistence {
