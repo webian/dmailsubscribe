@@ -45,6 +45,18 @@ class EmailNotRegisteredValidator extends AbstractValidator
      */
     protected $objectManager;
 
+
+    protected $supportedOptions = [
+        'lookupPageIds' => [
+            // Default value
+            0,
+            // Default message
+            'Page ID for subscribed email lookup',
+            // Type of the option
+            'integer'
+        ]
+    ];
+
     /**
      * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
      * @return void
