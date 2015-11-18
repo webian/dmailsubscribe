@@ -187,7 +187,13 @@ class SubscriptionController extends ActionController
 
         /** @var EmailService $emailService */
         $emailService = $this->objectManager->get(EmailService::class);
-        $emailService->send($subscription->getEmail(), $subscription->getName(), 'NewSubscription', $subscription->getReceiveHtml(), $templateVariables);
+        $emailService->send(
+            $subscription->getEmail(),
+            $subscription->getName(),
+            'NewSubscription',
+            $subscription->getReceiveHtml(),
+            $templateVariables
+        );
 
         $message = LocalizationUtility::translate('message.subscribe.success', $this->extensionName);
         $this->addFlashMessage($message);
