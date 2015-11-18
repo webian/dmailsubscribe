@@ -132,14 +132,14 @@ class EmailService
     protected function getView($templateName, $format = 'html')
     {
         /** @var StandaloneView $view */
-        $view = GeneralUtility::makeInstance('Tx_Fluid_View_StandaloneView');
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setFormat($format);
         $view->getRequest()->setControllerExtensionName('Dmailsubscribe');
 
         $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-        $templateRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath']);
-        $layoutRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPath']);
+        $templateRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPaths'][0]);
+        $layoutRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPaths'][0]);
         $templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.' . $format;
 
         $view->setTemplatePathAndFilename($templatePathAndFilename);
