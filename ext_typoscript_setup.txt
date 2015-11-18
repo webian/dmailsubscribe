@@ -1,0 +1,28 @@
+# ==============================================
+# Persistence object mapping configuration
+# ==============================================
+config.tx_extbase.persistence.classes {
+
+    DPN\Dmailsubscribe\Domain\Model\Subscription {
+        mapping {
+            tableName = tt_address
+            columns {
+                name.mapOnProperty = name
+                company.mapOnProperty = company
+                email.mapOnProperty = email
+                gender.mapOnProperty = gender
+                module_sys_dmail_html.mapOnProperty = receiveHtml
+                module_sys_dmail_category.mapOnProperty = categories
+            }
+        }
+    }
+
+    DPN\Dmailsubscribe\Domain\Model\Category {
+        mapping {
+            tableName = sys_dmail_category
+            columns {
+                category.mapOnProperty = title
+            }
+        }
+    }
+}

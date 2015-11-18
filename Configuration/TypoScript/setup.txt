@@ -7,30 +7,6 @@ plugin.tx_dmailsubscribe {
 
     persistence {
         storagePid = {$plugin.tx_dmailsubscribe.persistence.storagePid}
-        classes {
-            Tx_Dmailsubscribe_Domain_Model_Subscription {
-                mapping {
-                    tableName = tt_address
-                    columns {
-                        name.mapOnProperty = name
-                        company.mapOnProperty = company
-                        email.mapOnProperty = email
-                        gender.mapOnProperty = gender
-                        module_sys_dmail_html.mapOnProperty = receiveHtml
-                        module_sys_dmail_category.mapOnProperty = categories
-                    }
-                }
-            }
-
-            Tx_Dmailsubscribe_Domain_Model_Category {
-                mapping {
-                    tableName = sys_dmail_category
-                    columns {
-                        category.mapOnProperty = title
-                    }
-                }
-            }
-        }
     }
 
     settings {
