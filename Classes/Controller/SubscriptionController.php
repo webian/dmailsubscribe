@@ -49,25 +49,25 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class SubscriptionController extends ActionController
 {
     /**
-     * @var CategoryRepository
+     * @var \DPN\Dmailsubscribe\Domain\Repository\CategoryRepository
      * @inject
      */
     protected $categoryRepository;
 
     /**
-     * @var SubscriptionRepository
+     * @var \DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository
      * @inject
      */
     protected $subscriptionRepository;
 
     /**
-     * @var SettingsService
+     * @var \DPN\Dmailsubscribe\Service\SettingsService
      * @inject
      */
     protected $settingsService;
 
     /**
-     * @param CategoryRepository $repository
+     * @param \DPN\Dmailsubscribe\Domain\Repository\CategoryRepository $repository
      * @return void
      */
     public function injectCategoryRepository(CategoryRepository $repository)
@@ -76,7 +76,7 @@ class SubscriptionController extends ActionController
     }
 
     /**
-     * @param SubscriptionRepository $repository
+     * @param \DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository $repository
      * @return void
      */
     public function injectSubscriptionRepository(SubscriptionRepository $repository)
@@ -85,7 +85,7 @@ class SubscriptionController extends ActionController
     }
 
     /**
-     * @param SettingsService $settingsService
+     * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
      * @return void
      */
     public function injectSettingsService(SettingsService $settingsService)
@@ -121,8 +121,8 @@ class SubscriptionController extends ActionController
         }
 
         $categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
-        $additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', array(), ','), true);
-        $requiredFields = array_fill_keys($this->settingsService->getSetting('requiredFields', array(), ','), true);
+        $additionalFields = array_fill_keys($this->settingsService->getSetting('additionalFields', [], ','), true);
+        $requiredFields = array_fill_keys($this->settingsService->getSetting('requiredFields', [], ','), true);
 
         $selectedCategories = array();
         if (null === ($originalRequest = $this->request->getOriginalRequest())) {
