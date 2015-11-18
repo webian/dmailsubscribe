@@ -163,7 +163,7 @@ class SubscriptionController extends ActionController
      * @return void
      * @validate $subscription \DPN\Dmailsubscribe\Validation\Validator\SubscriptionValidator
      */
-    public function subscribeAction(Subscription $subscription, $categories = array())
+    public function subscribeAction(Subscription $subscription, array $categories = [])
     {
         $categoryPids = $this->settingsService->getSetting('categoryPids', [], ',');
 
