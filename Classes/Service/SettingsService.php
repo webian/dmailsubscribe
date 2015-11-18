@@ -73,7 +73,11 @@ class SettingsService
     public function getSetting($name, $default = null, $explode = null)
     {
         if (null === self::$settings) {
-            self::$settings = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+            self::$settings = $this->configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
+                'dmailsubscribe',
+                ''
+            );
         }
 
         $setting = null;
