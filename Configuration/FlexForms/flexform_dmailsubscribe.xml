@@ -24,9 +24,7 @@
                                         <numIndex index="0">
                                             Default
                                         </numIndex>
-                                        <numIndex index="1">
-                                            Subscription->new;Subscription->subscribe;Subscription->confirm;Subscription->unsubscribe;Subscription->unsubscribeform;Subscription->message
-                                        </numIndex>
+                                        <numIndex index="1">Subscription->new;Subscription->subscribe;Subscription->confirm;Subscription->unsubscribe;Subscription->unsubscribeform;Subscription->message</numIndex>
                                     </numIndex>
                                 </items>
                             </config>
