@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'DPN' . $_EXTKEY,
+    'DPN.Dmailsubscribe',
     'Fe',
     array(
         'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
