@@ -165,11 +165,13 @@ class SubscriptionController extends ActionController
      */
     public function subscribeAction(Subscription $subscription, $categories = array())
     {
-        $categoryPids = $this->settingsService->getSetting('categoryPids', array(), ',');
+        $categoryPids = $this->settingsService->getSetting('categoryPids', [], ',');
 
         $selectedCategories = $this->categoryRepository->findAllByUids($categories, $categoryPids);
-        foreach ($selectedCategories as $category) {
-            $subscription->addCategory($category);
+        if (count($selectedCategories) > 0) {
+            foreach ($selectedCategories as $category) {
+                $subscription->addCategory($category);
+            }
         }
 
         $this->subscriptionRepository->add($subscription);
