@@ -30,6 +30,7 @@ use DPN\Dmailsubscribe\Service\SettingsService;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Validation\Exception\InvalidSubjectException;
+use TYPO3\CMS\Extbase\Validation\Validator\EmailAddressValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
 
@@ -89,8 +90,16 @@ class SubscriptionValidator extends GenericObjectValidator
             throw new InvalidSubjectException(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
         }
 
-        $requiredFields = $this->settingsService->getSetting('requiredFields', array(), ',');
-        $lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
+        $requiredFields = $this->settingsService->getSetting('requiredFields', [], ',');
+        $lookupPageIds = $this->settingsService->getSetting('lookupPids', [], ',');
+
+        /** @var NotEmptyValidator $emailNotEmptyValidator */
+        $emailNotEmptyValidator = $this->objectManager->get(NotEmptyValidator::class);
+        $this->addPropertyValidator('email', $emailNotEmptyValidator);
+
+        /** @var EmailAddressValidator $emailAddressValidator */
+        $emailAddressValidator = $this->objectManager->get(EmailAddressValidator::class);
+        $this->addPropertyValidator('email', $emailAddressValidator);
 
         /** @var EmailNotRegisteredValidator $emailNotRegisteredValidator */
         $emailNotRegisteredValidator = $this->objectManager->get(EmailNotRegisteredValidator::class, ['lookupPageIds' => $lookupPageIds]);
