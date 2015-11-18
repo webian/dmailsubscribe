@@ -83,7 +83,7 @@ class EmailService
     public function send($toEmail, $toName, $templateName, $html = true, array $variables = array())
     {
         $charset = $this->settingsService->getSetting('charset', 'utf-8');
-        $subject = $this->settingsService->getSetting('subject', 'Newsletter Subsciption');
+        $subject = $this->settingsService->getSetting('subject', 'Newsletter Subscription');
 
         if (null === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
             throw new ConfigurationException('Sender email address is not specified.');
