@@ -46,6 +46,4 @@ plugin.tx_dmailsubscribe {
         pluginPageUid = {$plugin.tx_dmailsubscribe.settings.pluginPageUid}
         unsubscribePageUid = {$plugin.tx_dmailsubscribe.settings.unsubscribePageUid}
     }
-
-    features.rewrittenPropertyMapper = 1
 }
