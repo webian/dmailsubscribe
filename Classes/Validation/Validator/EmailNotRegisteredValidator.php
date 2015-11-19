@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Validation\Validator;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,10 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository;
+use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
+use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+
 /**
  * Validator: Email must not be registered
  *
@@ -30,36 +37,51 @@
  * @package Dmailsubscribe
  * @subpackage Validation/Validator
  */
-class Tx_Dmailsubscribe_Validation_Validator_EmailNotRegisteredValidator extends Tx_Extbase_Validation_Validator_AbstractValidator {
+class EmailNotRegisteredValidator extends AbstractValidator
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+     * @inject
+     */
+    protected $objectManager;
 
-	/**
-	 * @var Tx_Extbase_Object_ObjectManager
-	 */
-	protected $objectManager;
 
-	/**
-	 * @param Tx_Extbase_Object_ObjectManager $objectManager
-	 * @return void
-	 */
-	public function injectObjectManager(Tx_Extbase_Object_ObjectManager $objectManager) {
-		$this->objectManager = $objectManager;
-	}
+    protected $supportedOptions = [
+        'lookupPageIds' => [
+            // Default value
+            0,
+            // Default message
+            'Page ID for subscribed email lookup',
+            // Type of the option
+            'integer'
+        ]
+    ];
 
-	/**
-	 * @param string $value
-	 * @return bool
-	 */
-	public function isValid($value) {
-		/** @var Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository $repository */
-		$repository = $this->objectManager->get('Tx_Dmailsubscribe_Domain_Repository_SubscriptionRepository');
+    /**
+     * @param \TYPO3\CMS\Extbase\Object\ObjectManagerInterface $objectManager
+     * @return void
+     */
+    public function injectObjectManager(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
-		$result = $repository->findByEmail($value, $this->options['lookupPageIds']);
+    /**
+     * @param string $value
+     * @return bool
+     */
+    public function isValid($value)
+    {
+        /** @var SubscriptionRepository $repository */
+        $repository = $this->objectManager->get(SubscriptionRepository::class);
 
-		if (NULL !== $result) {
-			$this->addError('The given email address is already registered.', 1367223995);
-			return FALSE;
-		}
+        $result = $repository->findByEmail($value, $this->options['lookupPageIds']);
 
-		return TRUE;
-	}
+        if (null !== $result) {
+            $this->addError('The given email address is already registered.', 1367223995);
+            return false;
+        }
+
+        return true;
+    }
 }

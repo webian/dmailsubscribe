@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Domain\Model;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /**
  * (DirectMail) Category Model
  *
@@ -30,26 +35,27 @@
  * @package Dmailsubscribe
  * @subpackage Domain\Model
  */
-class Tx_Dmailsubscribe_Domain_Model_Category extends Tx_Extbase_DomainObject_AbstractEntity {
+class Category extends AbstractEntity
+{
+    /**
+     * @var string
+     */
+    protected $title;
 
-	/**
-	 * @var string
-	 */
-	protected $title;
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
-
-	/**
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
-
+    /**
+     * @param string $title
+     * @return void
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 }

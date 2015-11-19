@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,57 +25,64 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\Service\SettingsService;
+use TYPO3\CMS\Extbase\Configuration\Exception as ConfigurationException;
+use TYPO3\CMS\Fluid\ViewHelpers\Link\ActionViewHelper;
+
 /**
- * Class Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper
+ * Class AbstractLinkViewHelper
  *
  * Base class for link-generating ViewHelpers
  *
  * @package Dmailsubscribe
  * @subpackage ViewHelpers
  */
-abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractLinkViewHelper extends Tx_Fluid_ViewHelpers_Link_ActionViewHelper {
+abstract class AbstractLinkViewHelper extends ActionViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action;
 
-	/**
-	 * @var string
-	 */
-	protected $action;
+    /**
+     * @var \DPN\Dmailsubscribe\Service\SettingsService
+     * @inject
+     */
+    protected $settingsService;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Service_SettingsService
-	 */
-	protected $settingsService;
+    /**
+     * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
+     * @return void
+     */
+    public function injectSettingsService(SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
-	 * @return void
-	 */
-	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
-		$this->settingsService = $settingsService;
-	}
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('subscriptionUid', 'integer', 'Uid of the subscription to confirm.', true);
+        $this->registerArgument('confirmationCode', 'string', 'Confirmation code of the subscription to confirm.', true);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('subscriptionUid', 'integer', 'Uid of the subscription to confirm.', TRUE);
-		$this->registerArgument('confirmationCode', 'string', 'Confirmation code of the subscription to confirm.', TRUE);
-	}
+    /**
+     * @throws ConfigurationException
+     * @return string
+     */
+    public function render()
+    {
+        if (null === ($pluginPageUid = $this->settingsService->getSetting('pluginPageUid'))) {
+            throw new ConfigurationException('Plugin page Uid is not configured.');
+        }
 
-	/**
-	 * @throws Tx_Extbase_Configuration_Exception
-	 * @return string
-	 */
-	public function render() {
-		if (NULL === ($pluginPageUid = $this->settingsService->getSetting('pluginPageUid'))) {
-			throw new Tx_Extbase_Configuration_Exception('Plugin page Uid is not configured.');
-		}
+        $arguments = [
+            'subscriptionUid' => $this->arguments['subscriptionUid'],
+            'confirmationCode' => $this->arguments['confirmationCode'],
+        ];
 
-		$arguments = array(
-			'subscriptionUid' => $this->arguments['subscriptionUid'],
-			'confirmationCode' => $this->arguments['confirmationCode'],
-		);
-
-		return parent::render($this->action, $arguments, 'Subscription', NULL, NULL, $pluginPageUid, 0, FALSE, TRUE, '', '', FALSE, array(), TRUE);
-	}
-
+        return parent::render($this->action, $arguments, 'Subscription', null, null, $pluginPageUid, 0, false, true, '', '', false, [], true);
+    }
 }

@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\Service;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,12 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\Exception as ConfigurationException;
+use TYPO3\CMS\Fluid\View\StandaloneView;
+
 /**
  * Email Service
  *
@@ -30,106 +39,112 @@
  * @package Dmailsubscribe
  * @subpackage Service
  */
-class Tx_Dmailsubscribe_Service_EmailService {
+class EmailService
+{
+    /**
+     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
+     * @inject
+     */
+    protected $configurationManager;
 
-	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
-	 */
-	protected $configurationManager;
+    /**
+     * @var \DPN\Dmailsubscribe\Service\SettingsService
+     * @inject
+     */
+    protected $settingsService;
 
-	/**
-	 * @var Tx_Dmailsubscribe_Service_SettingsService
-	 */
-	protected $settingsService;
+    /**
+     * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
+     * @return void
+     */
+    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
 
-	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
-	 * @return void
-	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
-		$this->configurationManager = $configurationManager;
-	}
+    /**
+     * @param \DPN\Dmailsubscribe\Service\SettingsService $settingsService
+     * @return void
+     */
+    public function injectSettingsService(SettingsService $settingsService)
+    {
+        $this->settingsService = $settingsService;
+    }
 
-	/**
-	 * @param Tx_Dmailsubscribe_Service_SettingsService $settingsService
-	 * @return void
-	 */
-	public function injectSettingsService(Tx_Dmailsubscribe_Service_SettingsService $settingsService) {
-		$this->settingsService = $settingsService;
-	}
+    /**
+     * @param string $toEmail
+     * @param string $toName
+     * @param string $templateName
+     * @param boolean $html
+     * @param array $variables
+     * @throws ConfigurationException
+     * @return boolean
+     */
+    public function send($toEmail, $toName, $templateName, $html = true, array $variables = array())
+    {
+        $charset = $this->settingsService->getSetting('charset', 'utf-8');
+        $subject = $this->settingsService->getSetting('subject', 'Newsletter Subscription');
 
-	/**
-	 * @param string $toEmail
-	 * @param string $toName
-	 * @param string $templateName
-	 * @param boolean $html
-	 * @param array $variables
-	 * @throws Tx_Extbase_Configuration_Exception
-	 * @return boolean
-	 */
-	public function send($toEmail, $toName, $templateName, $html = TRUE, array $variables = array()) {
-		$charset = $this->settingsService->getSetting('charset', 'utf-8');
-		$subject = $this->settingsService->getSetting('subject', 'Newsletter Subsciption');
+        if (null === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
+            throw new ConfigurationException('Sender email address is not specified.');
+        }
 
-		if (NULL === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
-			throw new Tx_Extbase_Configuration_Exception('Sender email address is not specified.');
-		}
+        if (null === ($fromName = $this->settingsService->getSetting('fromName'))) {
+            throw new ConfigurationException('Sender name is not specified.');
+        }
 
-		if (NULL === ($fromName = $this->settingsService->getSetting('fromName'))) {
-			throw new Tx_Extbase_Configuration_Exception('Sender name is not specified.');
-		}
+        $htmlView = $this->getView($templateName, 'html');
+        $htmlView->assignMultiple($variables);
+        $htmlView->assign('charset', $charset);
+        $htmlView->assign('title', $subject);
+        $htmlBody = $htmlView->render();
 
-		$htmlView = $this->getView($templateName, 'html');
-		$htmlView->assignMultiple($variables);
-		$htmlView->assign('charset', $charset);
-		$htmlView->assign('title', $subject);
-		$htmlBody = $htmlView->render();
+        $plainView = $this->getView($templateName, 'txt');
+        $plainView->assignMultiple($variables);
+        $plainView->assign('charset', $charset);
+        $plainView->assign('title', $subject);
+        $plainBody = $plainView->render();
 
-		$plainView = $this->getView($templateName, 'txt');
-		$plainView->assignMultiple($variables);
-		$plainView->assign('charset', $charset);
-		$plainView->assign('title', $subject);
-		$plainBody = $plainView->render();
+        /** @var MailMessage $message */
+        $message = GeneralUtility::makeInstance(MailMessage::class);
+        $message->setTo([$toEmail => $toName])
+            ->setFrom([$fromEmail => $fromName])
+            ->setSubject($subject)
+            ->setCharset($charset);
 
-		/** @var t3lib_mail_Message $message */
-		$message = t3lib_div::makeInstance('t3lib_mail_Message');
-		$message->setTo(array($toEmail => $toName))
-			->setFrom(array($fromEmail => $fromName))
-			->setSubject($subject)
-			->setCharset($charset);
+        if (false === $html) {
+            $message->setBody($plainBody, 'text/plain');
+        } else {
+            $message->setBody($htmlBody, 'text/html');
+            $message->addPart($plainBody, 'text/plain');
+        }
 
-		if (FALSE === $html) {
-			$message->setBody($plainBody, 'text/plain');
-		} else {
-			$message->setBody($htmlBody, 'text/html');
-			$message->addPart($plainBody, 'text/plain');
-		}
+        $message->send();
 
-		$message->send();
+        return $message->isSent();
+    }
 
-		return $message->isSent();
-	}
+    /**
+     * @param string $templateName
+     * @param string $format
+     * @return StandaloneView
+     */
+    protected function getView($templateName, $format = 'html')
+    {
+        /** @var StandaloneView $view */
+        $view = GeneralUtility::makeInstance(StandaloneView::class);
+        $view->setFormat($format);
+        $view->getRequest()->setControllerExtensionName('Dmailsubscribe');
 
-	/**
-	 * @param string $templateName
-	 * @param string $format
-	 * @return Tx_Fluid_View_StandaloneView
-	 */
-	protected function getView($templateName, $format = 'html') {
-		/** @var Tx_Fluid_View_StandaloneView $view */
-		$view = t3lib_div::makeInstance('Tx_Fluid_View_StandaloneView');
-		$view->setFormat($format);
-		$view->getRequest()->setControllerExtensionName('Dmailsubscribe');
+        $extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 
-		$extbaseFrameworkConfiguration = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+        $templateRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPaths'][0]);
+        $layoutRootPath = GeneralUtility::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPaths'][0]);
+        $templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.' . $format;
 
-		$templateRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['templateRootPath']);
-		$layoutRootPath = t3lib_div::getFileAbsFileName($extbaseFrameworkConfiguration['view']['layoutRootPath']);
-		$templatePathAndFilename = $templateRootPath . 'Email/' . $templateName . '.' . $format;
+        $view->setTemplatePathAndFilename($templatePathAndFilename);
+        $view->setLayoutRootPaths([$layoutRootPath]);
 
-		$view->setTemplatePathAndFilename($templatePathAndFilename);
-		$view->setLayoutRootPath($layoutRootPath);
-
-		return $view;
-	}
+        return $view;
+    }
 }

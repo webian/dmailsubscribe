@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers\Link;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\ViewHelpers\AbstractMarkerLinkViewHelper;
+
 /**
  * Unsubscription link generating VieWHelper
  *
@@ -31,11 +36,10 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Link
  */
-class Tx_Dmailsubscribe_ViewHelpers_Link_MarkerUnsubscribeViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $action = 'unsubscribe';
-
+class MarkerUnsubscribeViewHelper extends AbstractMarkerLinkViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action = 'unsubscribe';
 }

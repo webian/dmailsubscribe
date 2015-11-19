@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers\Uri;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -22,6 +25,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DPN\Dmailsubscribe\ViewHelpers\AbstractUriViewHelper;
+
 /**
  * Confirmation URI generating VieWHelper
  *
@@ -30,11 +35,10 @@
  * @package Dmailsubscribe
  * @subpackage ViewHelpers\Uri
  */
-class Tx_Dmailsubscribe_ViewHelpers_Uri_ConfirmViewHelper extends Tx_Dmailsubscribe_ViewHelpers_AbstractUriViewHelper {
-
-	/**
-	 * @var string
-	 */
-	protected $action = 'confirm';
-
+class ConfirmViewHelper extends AbstractUriViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action = 'confirm';
 }

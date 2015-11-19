@@ -1,4 +1,7 @@
 <?php
+
+namespace DPN\Dmailsubscribe\ViewHelpers;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -21,41 +24,43 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Fluid\ViewHelpers\Link\PageViewHelper;
 
 /**
- * Class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper
+ * Class AbstractMarkerLinkViewHelper
  *
  * Base class for marker bases links
  *
  * @package Dmailsubscribe
  * @subpackage ViewHelpers
  */
-abstract class Tx_Dmailsubscribe_ViewHelpers_AbstractMarkerLinkViewHelper extends Tx_Fluid_ViewHelpers_Link_PageViewHelper {
+abstract class AbstractMarkerLinkViewHelper extends PageViewHelper
+{
+    /**
+     * @var string
+     */
+    protected $action;
 
-	/**
-	 * @var string
-	 */
-	protected $action;
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('pageUid', 'integer', 'Uid of the page containing the subscription plugin.', true);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function initializeArguments() {
-		parent::initializeArguments();
-		$this->registerArgument('pageUid', 'integer', 'Uid of the page containing the subscription plugin.', TRUE);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function render() {
-		$pageUid = intval($this->arguments['pageUid']);
-		$additionalParams = array(
-			'a' => $this->action,
-			'c' => '###SYS_AUTHCODE###',
-			'u' => '###USER_uid###',
-		);
-		return rawurldecode(parent::render($pageUid, $additionalParams, 0, TRUE, TRUE, '', FALSE, TRUE, FALSE));
-	}
-
+    /**
+     * @return string
+     */
+    public function render()
+    {
+        $pageUid = intval($this->arguments['pageUid']);
+        $additionalParams = array(
+            'a' => $this->action,
+            'c' => '###SYS_AUTHCODE###',
+            'u' => '###USER_uid###',
+        );
+        return rawurldecode(parent::render($pageUid, $additionalParams, 0, true, true, '', false, true, false));
+    }
 }

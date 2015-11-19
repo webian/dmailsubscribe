@@ -1,15 +1,15 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
+    die('Access denied.');
 }
 
-Tx_Extbase_Utility_Extension::configurePlugin(
-	$_EXTKEY,
-	'Fe',
-	array(
-		'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
-	),
-	array(
-		'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
-	)
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+    'DPN.Dmailsubscribe',
+    'Fe',
+    array(
+        'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
+    ),
+    array(
+        'Subscription' => 'new, subscribe, confirm, unsubscribe, unsubscribeform, message',
+    )
 );
