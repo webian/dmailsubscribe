@@ -19,6 +19,12 @@ Example configuration
 ::
 
     plugin.tx_dmailsubscribe {
+      view {
+        # Overrides the template paths
+        layoutRootPaths.100 = EXT:myext/Resources/Private/Layouts/Plugins/Dmailsubscribe/
+        templateRootPaths.100 = EXT:myext/Resources/Private/Templates/Plugins/Dmailsubscribe/
+        partialRootPaths.100 = EXT:myext/Resources/Private/Partials/Plugins/Dmailsubscribe/
+      }
       settings {
         additionalFields = gender, name, company, receiveHtml, categories
         requiredFields = gender, name
@@ -43,6 +49,13 @@ Example configuration
 * fromEmail: Email of sender used in confirmation emails
 * fromName: Name of sender used in confirmation emails
 * subject: Subject of subscription confirmation email
+
+Customizing templates
+---
+
+You can use your own fluid templates with this extension via the standard template overloading mechanism (see above).
+
+E-Mail Templates are resolved to templateRootPaths.{$index}/Email/NewSubscription.html and templateRootPaths.{$index}/Email/NewSubscription.txt.
 
 ToDo
 ----
