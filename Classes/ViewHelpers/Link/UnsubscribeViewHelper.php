@@ -5,7 +5,7 @@ namespace DPN\Dmailsubscribe\ViewHelpers\Link;
 /***************************************************************
  *  Copyright notice
  *
- *  (c) 2013 Björn Fromme <fromme@dreipunktnull.come>
+ *  (c) 2016 Björn Fromme <fromme@dreipunktnull.come>
  *  All rights reserved
  *
  *  This script is part of the TYPO3 project. The TYPO3 project is
