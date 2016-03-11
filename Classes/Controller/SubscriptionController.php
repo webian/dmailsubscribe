@@ -110,7 +110,7 @@ class SubscriptionController extends ActionController
     {
         if (null !== GeneralUtility::_GET('a') && null !== GeneralUtility::_GET('c') && null !== GeneralUtility::_GET('u')) {
             $action = GeneralUtility::_GET('a');
-            if ('confirm' == $action || 'unsubscribe' == $action) {
+            if ('confirm' === $action || 'unsubscribe' === $action) {
                 $arguments = array(
                     'confirmationCode' => GeneralUtility::_GET('c'),
                     'subscriptionUid' => GeneralUtility::_GET('u'),

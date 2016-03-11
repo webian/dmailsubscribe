@@ -86,7 +86,7 @@ class SubscriptionRepository extends Repository
 
         $query->matching($query->logicalAnd(
             $query->equals('deleted', 0),
-            $query->equals('uid', intval($uid))
+            $query->equals('uid', (integer) $uid)
         ));
 
         $query->setLimit(1);

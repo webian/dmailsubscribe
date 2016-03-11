@@ -46,13 +46,13 @@ class EmailNotRegisteredValidator extends AbstractValidator
     protected $objectManager;
 
 
+    /**
+     * @var array
+     */
     protected $supportedOptions = [
         'lookupPageIds' => [
-            // Default value
             0,
-            // Default message
             'Page ID for subscribed email lookup',
-            // Type of the option
             'integer'
         ]
     ];

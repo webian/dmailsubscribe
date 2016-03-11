@@ -55,7 +55,7 @@ abstract class AbstractMarkerLinkViewHelper extends PageViewHelper
      */
     public function render()
     {
-        $pageUid = intval($this->arguments['pageUid']);
+        $pageUid = (integer) $this->arguments['pageUid'];
         $additionalParams = array(
             'a' => $this->action,
             'c' => '###SYS_AUTHCODE###',
