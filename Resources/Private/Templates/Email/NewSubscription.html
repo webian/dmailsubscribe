@@ -5,15 +5,16 @@
 <f:layout name="HtmlEmail"/>
 
 <f:section name="Main">
-    <h1>Success</h1>
+    <h1><f:translate key="email.greeting"/></h1>
 
-    <p>You have been subscribed to our newsletter. Please click the following link to confirm your subscription:
-        <d:link.confirm subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}">Confirm
-            subscription
+    <p><f:translate key="email.confirm_link_help"/>:
+        <d:link.confirm subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}">
+            <f:translate key="email.confirm_link_text"/>
         </d:link.confirm>
     </p>
-    <p>To unscubscribe from our newsletter click the following link:
-        <d:link.unsubscribe subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}">Unsubscribe
+    <p><f:translate key="email.unsubscribe_link_help"/>:
+        <d:link.unsubscribe subscriptionUid="{subscription.uid}" confirmationCode="{confirmationCode}">
+            <f:translate key="email.unsubscribe_link_text"/>
         </d:link.unsubscribe>
     </p>
 </f:section>

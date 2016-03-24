@@ -42,6 +42,13 @@
             <label index="message.unsubscribe.subscription_not_found">This subscription could not be found.</label>
             <label index="message.unsubscribe.success">You have been successfully unsubscribed from our newsletter.
             </label>
+            <label index="email.greeting">Success</label>
+            <label index="email.confirm_link_help">You have been subscribed to our newsletter. Please click the
+                following link to confirm your subscription</label>
+            <label index="email.confirm_link_text">subscription</label>
+            <label index="email.unsubscribe_link_help">To unscubscribe from our newsletter click the following link
+            </label>
+            <label index="email.unsubscribe_link_text">Unsubscribe</label>
         </languageKey>
     </data>
 </T3locallang>
