@@ -1,6 +1,6 @@
 plugin.tx_dmailsubscribe {
     view {
-        templateRootPath >
+        layoutRootPath >
         layoutRootPaths.0 = EXT:dmailsubscribe/Resources/Private/Layouts/
         layoutRootPaths.10 = {$plugin.tx_dmailsubscribe.view.layoutRootPath}
 
