@@ -25,6 +25,8 @@
             <label index="label.gender.male">Mr.</label>
             <label index="label.gender.female">Mrs.</label>
             <label index="label.name">Name</label>
+            <label index="label.lastName">Last name</label>
+            <label index="label.firstName">First name</label>
             <label index="label.company">Company</label>
             <label index="label.email">Email</label>
             <label index="label.receiveHtml">HTML emails</label>

@@ -8,7 +8,7 @@ Features
 --------
 
 * based on extbase/fluid
-* supports additional fields gender, name, and company
+* supports additional fields gender, name, first_name, last_name and company
 * supports categories
 * includes viewhelpers for confirm and unsubscribe links
 * additional and required fields configurable via TS or flexform

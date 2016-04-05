@@ -42,6 +42,44 @@
             </div>
         </f:if>
 
+        <f:if condition="{additionalFields.last_name}">
+            <div class="form-row">
+                <div class="form-label">
+                    <label for="lastname">
+                        <f:translate key="label.lastName"/>
+                        {f:if(condition: '{requiredFields.last_name}', then: '*')}
+                    </label>
+                </div>
+                <div class="form-field">
+                    <f:form.textfield id="lastname" property="lastName"/>
+                </div>
+                <f:form.validationResults for="subscription.lastName">
+                    <f:for each="{validationResults.flattenedErrors}" as="error">
+                        <div class="form-error">{error.0.message}</div>
+                    </f:for>
+                </f:form.validationResults>
+            </div>
+        </f:if>
+
+        <f:if condition="{additionalFields.first_name}">
+            <div class="form-row">
+                <div class="form-label">
+                    <label for="firstname">
+                        <f:translate key="label.firstName"/>
+                        {f:if(condition: '{requiredFields.first_name}', then: '*')}
+                    </label>
+                </div>
+                <div class="form-field">
+                    <f:form.textfield id="firstname" property="firstName"/>
+                </div>
+                <f:form.validationResults for="subscription.firstName">
+                    <f:for each="{validationResults.flattenedErrors}" as="error">
+                        <div class="form-error">{error.0.message}</div>
+                    </f:for>
+                </f:form.validationResults>
+            </div>
+        </f:if>
+
         <f:if condition="{additionalFields.company}">
             <div class="form-row">
                 <div class="form-label">
