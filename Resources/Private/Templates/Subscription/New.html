@@ -18,7 +18,7 @@
                     </label>
                 </div>
                 <div class="form-field">
-                    <f:form.select id="gender" property="gender" options="{m: 'Mr.', f: 'Mrs.'}"/>
+                    <f:form.select id="gender" property="gender" options="{m: '{f:translate(key: \'label.gender.male\')}', f: '{f:translate(key: \'label.gender.female\')}' }"/>
                 </div>
             </div>
         </f:if>
