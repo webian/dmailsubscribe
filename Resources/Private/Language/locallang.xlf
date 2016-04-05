@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages">
+        <body>
+            <trans-unit id="flexforms.sheet_general">
+                <source>General settings</source>
+            </trans-unit>
+            <trans-unit id="flexforms.sheet_email">
+                <source>Email settings</source>
+            </trans-unit>
+            <trans-unit id="flexforms.additional_fields">
+                <source>Additional fields</source>
+            </trans-unit>
+            <trans-unit id="flexforms.required_fields">
+                <source>Required fields</source>
+            </trans-unit>
+            <trans-unit id="flexforms.mute_confrmation_errors">
+                <source>Mute confirmation errors</source>
+            </trans-unit>
+            <trans-unit id="flexforms.mute_unsubscribe_errors">
+                <source>Mute unsubscribe errors</source>
+            </trans-unit>
+            <trans-unit id="flexforms.lookup_pids">
+                <source>Pids in which to look up subscription (tt_address) records</source>
+            </trans-unit>
+            <trans-unit id="flexforms.category_pids">
+                <source>Pids in which to look up category (sys_dmail_category) records</source>
+            </trans-unit>
+            <trans-unit id="flexforms.plugin_page_uid">
+                <source>Page UID where plugin is located (used to generate unsubscribe links)</source>
+            </trans-unit>
+            <trans-unit id="flexforms.from_email">
+                <source>Email of sender used in confirmation emails</source>
+            </trans-unit>
+            <trans-unit id="flexforms.from_name">
+                <source>Name of sender used in confirmation emails</source>
+            </trans-unit>
+            <trans-unit id="flexforms.subject">
+                <source>Subject of subscription confirmation email</source>
+            </trans-unit>
+            <trans-unit id="label.gender">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="label.gender.male">
+                <source>Mr.</source>
+            </trans-unit>
+            <trans-unit id="label.gender.female">
+                <source>Mrs.</source>
+            </trans-unit>
+            <trans-unit id="label.name">
+                <source>Name</source>
+            </trans-unit>
+            <trans-unit id="label.lastName">
+                <source>Last name</source>
+            </trans-unit>
+            <trans-unit id="label.firstName">
+                <source>First name</source>
+            </trans-unit>
+            <trans-unit id="label.company">
+                <source>Company</source>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <source>Email</source>
+            </trans-unit>
+            <trans-unit id="label.receiveHtml">
+                <source>HTML emails</source>
+            </trans-unit>
+            <trans-unit id="label.categories">
+                <source>Categories</source>
+            </trans-unit>
+            <trans-unit id="label.subscribe">
+                <source>Subscribe</source>
+            </trans-unit>
+            <trans-unit id="label.unsubscribe">
+                <source>Unsubscribe</source>
+            </trans-unit>
+            <trans-unit id="message.subscribe.success">
+                <source>You have been subscribed to the newsletter. A confirmation email has been sent.</source>
+            </trans-unit>
+            <trans-unit id="message.confirm.confirmation_code_invalid">
+                <source>The provided confirmation code is invalid.</source>
+            </trans-unit>
+            <trans-unit id="message.confirm.subscription_not_found">
+                <source>This subscription could not be found or is already confirmed.</source>
+            </trans-unit>
+            <trans-unit id="message.confirm.success">
+                <source>Your subscription has been confirmed.</source>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.confirmation_code_invalid">
+                <source>The provided confirmation code is invalid.</source>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.subscription_not_found">
+                <source>This subscription could not be found.</source>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.success">
+                <source>You have been successfully unsubscribed from our newsletter.</source>
+            </trans-unit>
+            <trans-unit id="email.greeting">
+                <source>Success</source>
+            </trans-unit>
+            <trans-unit id="email.confirm_link_help">
+                <source>You have been subscribed to our newsletter. Please click the following link to confirm your subscription</source>
+            </trans-unit>
+            <trans-unit id="email.confirm_link_text">
+                <source>subscription</source>
+            </trans-unit>
+            <trans-unit id="email.unsubscribe_link_help">
+                <source>To unscubscribe from our newsletter click the following link</source>
+            </trans-unit>
+            <trans-unit id="email.unsubscribe_link_text">
+                <source>Unsubscribe</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
