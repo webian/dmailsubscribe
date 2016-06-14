@@ -53,7 +53,7 @@ class SubscriptionRepository extends Repository
         if (0 < count($lookupPageIds)) {
             $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
             // @TODO: Lookup replacement
-            $combinedPageIds = GeneralUtility::array_merge($defaultPageIds, $lookupPageIds);
+            $combinedPageIds = $defaultPageIds + $lookupPageIds;
             $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
         }
 
