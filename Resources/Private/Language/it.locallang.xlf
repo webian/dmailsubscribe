@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages">
+        <body>
+            <trans-unit id="flexforms.sheet_general">
+                <target>Settaggi Generali</target>
+            </trans-unit>
+            <trans-unit id="flexforms.sheet_email">
+                <target>Settaggi email</target>
+            </trans-unit>
+            <trans-unit id="flexforms.additional_fields">
+                <target>Campi aggiuntivi</target>
+            </trans-unit>
+            <trans-unit id="flexforms.required_fields">
+                <target>Campi richiesti</target>
+            </trans-unit>
+            <trans-unit id="flexforms.mute_confrmation_errors">
+                <target>Silenzia errori di conferma</target>
+            </trans-unit>
+            <trans-unit id="flexforms.mute_unsubscribe_errors">
+                <target>Silenzia errori di cancellazione</target>
+            </trans-unit>
+            <trans-unit id="flexforms.lookup_pids">
+                <target>Pids in which to look up subscription (tt_address) records</target>
+            </trans-unit>
+            <trans-unit id="flexforms.category_pids">
+                <target>Pids in which to look up category (sys_dmail_category) records</target>
+            </trans-unit>
+            <trans-unit id="flexforms.plugin_page_uid">
+                <target>Page UID where plugin is located (used to generate unsubscribe links)</target>
+            </trans-unit>
+            <trans-unit id="flexforms.from_email">
+                <target>Email of sender used in confirmation emails</target>
+            </trans-unit>
+            <trans-unit id="flexforms.from_name">
+                <target>Name of sender used in confirmation emails</target>
+            </trans-unit>
+            <trans-unit id="flexforms.subject">
+                <target>Subject of subscription confirmation email</target>
+            </trans-unit>
+            <trans-unit id="label.default_subject">
+                <target>Iscrizione alla Newsletter</target>
+            </trans-unit>
+            <trans-unit id="label.gender">
+                <target>Titolo</target>
+            </trans-unit>
+            <trans-unit id="label.gender.male">
+                <target>Sig.</target>
+            </trans-unit>
+            <trans-unit id="label.gender.female">
+                <target>Sig.ra</target>
+            </trans-unit>
+            <trans-unit id="label.name">
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="label.lastName">
+                <target>Cognome</target>
+            </trans-unit>
+            <trans-unit id="label.firstName">
+                <target>Nome</target>
+            </trans-unit>
+            <trans-unit id="label.company">
+                <target>Società</target>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="label.receiveHtml">
+                <target>Email in HTML</target>
+            </trans-unit>
+            <trans-unit id="label.categories">
+                <target>Categorie</target>
+            </trans-unit>
+            <trans-unit id="label.subscribe">
+                <target>Iscrivimi</target>
+            </trans-unit>
+            <trans-unit id="label.unsubscribe">
+                <target>Cancella iscrizione</target>
+            </trans-unit>
+            <trans-unit id="message.subscribe.success">
+                <target>Per completare l'iscrizione alla newsletter, per favore conferma la mail che ti abbiamo inviato.</target>
+            </trans-unit>
+            <trans-unit id="message.subscribe.email_already_registered">
+                <target>Questo indirizzo è già registrato alla newsletter.</target>
+            </trans-unit>
+            <trans-unit id="message.confirm.confirmation_code_invalid">
+                <target>Il codice di conferma è sbagliato.</target>
+            </trans-unit>
+            <trans-unit id="message.confirm.subscription_not_found">
+                <target>Questa iscrizione non può essere trovata o è già stata confermata.</target>
+            </trans-unit>
+            <trans-unit id="message.confirm.success">
+                <target>La tua iscrizione è stata confermata.</target>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.confirmation_code_invalid">
+                <target>Codice non valido</target>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.subscription_not_found">
+                <target>L'iscrizione non può essere trovata.</target>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.success">
+                <target>Iscrizione cancellata</target>
+            </trans-unit>
+            <trans-unit id="email.greeting">
+                <target>Iscrizione alla newsletter</target>
+            </trans-unit>
+            <trans-unit id="email.confirm_link_help">
+                <target>Per completare l'iscrizione alla newsletter, per favore clicca il seguente link</target>
+            </trans-unit>
+            <trans-unit id="email.confirm_link_text">
+                <target>Completa iscrizione</target>
+            </trans-unit>
+            <trans-unit id="email.unsubscribe_link_help">
+                <target>Per annullare l'iscrizione alla newsletter, per favore clicca il seguente link</target>
+            </trans-unit>
+            <trans-unit id="email.unsubscribe_link_text">
+                <target>Cancella iscrizione</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
