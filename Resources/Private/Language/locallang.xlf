@@ -38,6 +38,9 @@
             <trans-unit id="flexforms.subject">
                 <source>Subject of subscription confirmation email</source>
             </trans-unit>
+            <trans-unit id="label.default_subject">
+                <source>Newsletter Subscription</source>
+            </trans-unit>
             <trans-unit id="label.gender">
                 <source>Title</source>
             </trans-unit>
@@ -76,6 +79,9 @@
             </trans-unit>
             <trans-unit id="message.subscribe.success">
                 <source>You have been subscribed to the newsletter. A confirmation email has been sent.</source>
+            </trans-unit>
+            <trans-unit id="message.subscribe.email_already_registered">
+                <source>The given email address is already registered.</source>
             </trans-unit>
             <trans-unit id="message.confirm.confirmation_code_invalid">
                 <source>The provided confirmation code is invalid.</source>
