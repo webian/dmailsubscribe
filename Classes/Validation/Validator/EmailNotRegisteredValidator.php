@@ -28,6 +28,7 @@ namespace DPN\Dmailsubscribe\Validation\Validator;
 use DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Validator: Email must not be registered
@@ -78,7 +79,7 @@ class EmailNotRegisteredValidator extends AbstractValidator
         $result = $repository->findByEmail($value, $this->options['lookupPageIds']);
 
         if (null !== $result) {
-            $this->addError('The given email address is already registered.', 1367223995);
+            $this->addError(LocalizationUtility::translate('message.subscribe.email_already_registered', 'dmailsubscribe'), 1367223995);
             return false;
         }
 

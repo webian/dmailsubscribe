@@ -30,6 +30,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Configuration\Exception as ConfigurationException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Email Service
@@ -83,7 +84,7 @@ class EmailService
     public function send($toEmail, $toName, $templateName, $html = true, array $variables = array())
     {
         $charset = $this->settingsService->getSetting('charset', 'utf-8');
-        $subject = $this->settingsService->getSetting('subject', 'Newsletter Subscription');
+        $subject = $this->settingsService->getSetting('subject', LocalizationUtility::translate('label.default_subject', 'dmailsubscribe'));
 
         if (null === ($fromEmail = $this->settingsService->getSetting('fromEmail'))) {
             throw new ConfigurationException('Sender email address is not specified.');
