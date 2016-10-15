@@ -72,7 +72,7 @@ abstract class AbstractLinkViewHelper extends ActionViewHelper
      * @throws ConfigurationException
      * @return string
      */
-    public function render()
+    public function render($action = null, array $arguments = [], $controller = null, $extensionName = null, $pluginName = null, $pageUid = null, $pageType = 0, $noCache = false, $noCacheHash = false, $section = '', $format = '', $linkAccessRestrictedPages = false, array $additionalParams = [], $absolute = false, $addQueryString = false, array $argumentsToBeExcludedFromQueryString = [], $addQueryStringMethod = null)
     {
         if (null === ($pluginPageUid = $this->settingsService->getSetting('pluginPageUid'))) {
             throw new ConfigurationException('Plugin page Uid is not configured.');
