@@ -26,6 +26,8 @@ plugin.tx_dmailsubscribe {
         lookupPids =
         # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Pids in which to look up category (sys_dmail_category) records
         categoryPids =
+		# cat=plugin.tx_dmailsubscribe//a; type=string; Label=Uids of categories (sys_dmail_category) records that should by selected per default
+        defaultCategories =
         # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Email of sender used in confirmation emails
         fromEmail =
         # cat=plugin.tx_dmailsubscribe//a; type=string; Label=Name of sender used in confirmation emails

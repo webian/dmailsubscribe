@@ -126,6 +126,10 @@ class SubscriptionController extends ActionController
         $selectedCategories = array();
         if (null === ($originalRequest = $this->request->getOriginalRequest())) {
             $subscription = $this->objectManager->get(Subscription::class);
+			$defaultCategories = $this->settingsService->getSetting('defaultCategories', array(), ',');
+			foreach ($defaultCategories as $catUid) {
+				$selectedCategories[$catUid] = true;
+			}
         } else {
             $subscription = $originalRequest->getArgument('subscription');
             if ($originalRequest->hasArgument('categories')) {

@@ -24,6 +24,7 @@ plugin.tx_dmailsubscribe {
         muteUnsubscribeErrors = {$plugin.tx_dmailsubscribe.settings.muteUnsubscribeErrors}
         lookupPids = {$plugin.tx_dmailsubscribe.settings.lookupPids}
         categoryPids = {$plugin.tx_dmailsubscribe.settings.categoryPids}
+		defaultCategories = {$plugin.tx_dmailsubscribe.settings.defaultCategories}
         fromEmail = {$plugin.tx_dmailsubscribe.settings.fromEmail}
         fromName = {$plugin.tx_dmailsubscribe.settings.fromName}
         subject = {$plugin.tx_dmailsubscribe.settings.subject}
