@@ -279,7 +279,8 @@ class SubscriptionController extends ActionController
         }
 
         /** @var Subscription $subscription */
-        if (null === ($subscription = $this->subscriptionRepository->findByUid($subscriptionUid))) {
+        //if (null === ($subscription = $this->subscriptionRepository->findByUid($subscriptionUid))) { # does not work if registration is not confirmed (hidden record)
+		if (null === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid))) {
             if (false === $muteUnsubscribeErrors) {
                 $message = LocalizationUtility::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
                 $this->addFlashMessage($message);
