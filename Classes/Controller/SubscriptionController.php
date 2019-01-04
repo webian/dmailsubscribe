@@ -269,6 +269,7 @@ class SubscriptionController extends ActionController
     public function unsubscribeAction($subscriptionUid, $confirmationCode)
     {
         $muteUnsubscribeErrors = (boolean)$this->settingsService->getSetting('muteUnsubscribeErrors', true);
+		$lookupPageIds = $this->settingsService->getSetting('lookupPids', array(), ',');
 
         if (false === ($confirmationCodeValid = $this->validateConfirmationCode($subscriptionUid, $confirmationCode))) {
             if (false === $muteUnsubscribeErrors) {
@@ -280,7 +281,7 @@ class SubscriptionController extends ActionController
 
         /** @var Subscription $subscription */
         //if (null === ($subscription = $this->subscriptionRepository->findByUid($subscriptionUid))) { # does not work if registration is not confirmed (hidden record)
-		if (null === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid))) {
+		if (null === ($subscription = $this->subscriptionRepository->findNotConfirmedByUid($subscriptionUid, $lookupPageIds))) {
             if (false === $muteUnsubscribeErrors) {
                 $message = LocalizationUtility::translate('message.unsubscribe.subscription_not_found', $this->extensionName);
                 $this->addFlashMessage($message);
