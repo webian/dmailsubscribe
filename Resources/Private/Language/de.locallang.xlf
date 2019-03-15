@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages">
+        <body>
+            <trans-unit id="label.gender">
+                <source>Title</source>
+                <target>Anrede</target>
+            </trans-unit>
+            <trans-unit id="label.gender.male">
+                <source>Mr.</source>
+                <target>Herr</target>
+            </trans-unit>
+            <trans-unit id="label.gender.female">
+                <source>Mrs.</source>
+                <target>Frau</target>
+            </trans-unit>
+            <trans-unit id="label.name">
+                <source>Name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="label.lastName">
+                <source>Last name</source>
+                <target>Nachname</target>
+            </trans-unit>
+            <trans-unit id="label.firstName">
+                <source>First name</source>
+                <target>Vorname</target>
+            </trans-unit>
+            <trans-unit id="label.company">
+                <source>Company</source>
+                <target>Firma</target>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <source>Email</source>
+                <target>E-Mail</target>
+            </trans-unit>
+            <trans-unit id="label.receiveHtml">
+                <source>HTML emails</source>
+                <source>HTML E-Mails</source>
+            </trans-unit>
+            <trans-unit id="label.categories">
+                <source>Categories</source>
+                <target>Kategorien</target>
+            </trans-unit>
+            <trans-unit id="label.subscribe">
+                <source>Subscribe</source>
+                <target>Anmelden</target>
+            </trans-unit>
+            <trans-unit id="label.unsubscribe">
+                <source>Unsubscribe</source>
+                <target>Abmelden</target>
+            </trans-unit>
+            <trans-unit id="message.subscribe.success">
+                <source>You have been subscribed to the newsletter. A confirmation email has been sent.</source>
+                <target>Sie wurden zu unserem Newsletter hinzugefügt. Es wurde ein Bestätigungsmail versendet.</target>
+            </trans-unit>
+            <trans-unit id="message.confirm.confirmation_code_invalid">
+                <source>The provided confirmation code is invalid.</source>
+                <target>Der angegebene Code ist ungültig.</target>
+            </trans-unit>
+            <trans-unit id="message.confirm.subscription_not_found">
+                <source>This subscription could not be found or is already confirmed.</source>
+                <target>Die Anmeldung kann nicht gefunden werden oder ist schon bestätigt worden.</target>
+            </trans-unit>
+            <trans-unit id="message.confirm.success">
+                <source>Your subscription has been confirmed.</source>
+                <target>Ihre Anmeldung ist bestätigt worden.</target>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.confirmation_code_invalid">
+                <source>The provided confirmation code is invalid.</source>
+                <target>Der angegebene Code ist ungültig.</target>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.subscription_not_found">
+                <source>This subscription could not be found.</source>
+                <target>Die angegebene E-Mail Adresse kann nicht gefunden werden.</target>
+            </trans-unit>
+            <trans-unit id="message.unsubscribe.success">
+                <source>You have been successfully unsubscribed from our newsletter.</source>
+                <target>Sie wurden erfolgreich aus unserem Newsletterverteiler gelöscht.</target>
+            </trans-unit>
+            <trans-unit id="email.greeting">
+                <source>Success</source>
+                <target>Guten Tag</target>
+            </trans-unit>
+            <trans-unit id="email.confirm_link_help">
+                <source>You have been subscribed to our newsletter. Please click the following link to confirm your subscription</source>
+                <target>Sie wurden zu unserem Newsletter hinzugefügt. Bitte bestätigen Sie Ihre Anmeldung</target>
+            </trans-unit>
+            <trans-unit id="email.confirm_link_text">
+                <source>subscription</source>
+                <target>Anmeldung bestätigen</target>
+            </trans-unit>
+            <trans-unit id="email.unsubscribe_link_help">
+                <source>To unscubscribe from our newsletter click the following link</source>
+                <target>Um sich von unserem Newletter abzumelden, klick Sie den folgenden Link</target>
+            </trans-unit>
+            <trans-unit id="email.unsubscribe_link_text">
+                <source>Unsubscribe</source>
+                <target>Abmelden</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
