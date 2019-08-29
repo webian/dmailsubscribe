@@ -29,6 +29,8 @@ use DPN\Dmailsubscribe\Service\SettingsService;
 use TYPO3\CMS\Extbase\Configuration\Exception as ConfigurationException;
 use TYPO3\CMS\Fluid\ViewHelpers\Link\ActionViewHelper;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  * Class AbstractLinkViewHelper
  *
@@ -46,7 +48,7 @@ abstract class AbstractLinkViewHelper extends ActionViewHelper
 
     /**
      * @var \DPN\Dmailsubscribe\Service\SettingsService
-     * @inject
+     * @Inject
      */
     protected $settingsService;
 

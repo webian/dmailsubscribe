@@ -28,6 +28,8 @@ namespace DPN\Dmailsubscribe\Service;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  * Settings Service
  *
@@ -46,7 +48,7 @@ class SettingsService
 
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @inject
+     * @Inject
      */
     protected $configurationManager;
 

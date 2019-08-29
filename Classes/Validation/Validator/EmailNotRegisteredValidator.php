@@ -30,6 +30,8 @@ use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  * Validator: Email must not be registered
  *
@@ -42,7 +44,7 @@ class EmailNotRegisteredValidator extends AbstractValidator
 {
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @Inject
      */
     protected $objectManager;
 

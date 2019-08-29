@@ -34,6 +34,8 @@ use TYPO3\CMS\Extbase\Validation\Validator\EmailAddressValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  * Validator: Subscription object validation wrapper
  *
@@ -47,13 +49,13 @@ class SubscriptionValidator extends GenericObjectValidator
 {
     /**
      * @var \DPN\Dmailsubscribe\Service\SettingsService
-     * @inject
+     * @Inject
      */
     protected $settingsService;
 
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
-     * @inject
+     * @Inject
      */
     protected $objectManager;
 

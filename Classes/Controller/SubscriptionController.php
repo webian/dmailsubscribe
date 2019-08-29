@@ -36,6 +36,9 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+use TYPO3\CMS\Extbase\Annotation\IgnoreValidation;
+
 /**
  * Subscription Controller
  *
@@ -49,19 +52,19 @@ class SubscriptionController extends ActionController
 {
     /**
      * @var \DPN\Dmailsubscribe\Domain\Repository\CategoryRepository
-     * @inject
+     * @Inject
      */
     protected $categoryRepository;
 
     /**
      * @var \DPN\Dmailsubscribe\Domain\Repository\SubscriptionRepository
-     * @inject
+     * @Inject
      */
     protected $subscriptionRepository;
 
     /**
      * @var \DPN\Dmailsubscribe\Service\SettingsService
-     * @inject
+     * @Inject
      */
     protected $settingsService;
 
@@ -104,7 +107,7 @@ class SubscriptionController extends ActionController
      *
      * @param Subscription $subscription
      * @return void
-     * @ignorevalidation $subscription
+     * @IgnoreValidation(argumentName="subscription")
      */
     public function newAction(Subscription $subscription = null)
     {

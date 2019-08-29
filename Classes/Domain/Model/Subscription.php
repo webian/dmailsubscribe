@@ -28,6 +28,8 @@ namespace DPN\Dmailsubscribe\Domain\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
+use TYPO3\CMS\Extbase\Annotation\Validate;
+
 /**
  * Subscription Model
  *
@@ -41,7 +43,7 @@ class Subscription extends AbstractEntity
 {
     /**
      * @var string
-     * @validate EmailAddress
+     * @Validate(validator="EmailAddress")
      */
     protected $email;
 

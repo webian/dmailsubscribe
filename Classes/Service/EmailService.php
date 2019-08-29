@@ -32,6 +32,8 @@ use TYPO3\CMS\Extbase\Configuration\Exception as ConfigurationException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
+use TYPO3\CMS\Extbase\Annotation\Inject;
+
 /**
  * Email Service
  *
@@ -44,13 +46,13 @@ class EmailService
 {
     /**
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
-     * @inject
+     * @Inject
      */
     protected $configurationManager;
 
     /**
      * @var \DPN\Dmailsubscribe\Service\SettingsService
-     * @inject
+     * @Inject
      */
     protected $settingsService;
 
