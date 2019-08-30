@@ -29,7 +29,6 @@ use DPN\Dmailsubscribe\Domain\Model\Subscription;
 use DPN\Dmailsubscribe\Service\SettingsService;
 use TYPO3\CMS\Extbase\Error\Result;
 use TYPO3\CMS\Extbase\Object\ObjectManagerInterface;
-use TYPO3\CMS\Extbase\Validation\Exception\InvalidSubjectException;
 use TYPO3\CMS\Extbase\Validation\Validator\EmailAddressValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\GenericObjectValidator;
 use TYPO3\CMS\Extbase\Validation\Validator\NotEmptyValidator;
@@ -83,13 +82,13 @@ class SubscriptionValidator extends GenericObjectValidator
      * to email field
      *
      * @param mixed $object
-     * @throws InvalidSubjectException
+     * @throws \TYPO3\CMS\Extbase\Validation\Exception
      * @return Result
      */
     public function validate($object)
     {
         if (false === $this->canValidate($object)) {
-            throw new InvalidSubjectException(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
+            throw new \TYPO3\CMS\Extbase\Validation\Exception(sprintf('Expected "%s" but was "%s"', 'Tx_Dmailsubscribe_Domain_Model_Subscription', get_class($object)));
         }
 
         $requiredFields = $this->settingsService->getSetting('requiredFields', [], ',');

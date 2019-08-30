@@ -80,7 +80,7 @@ class SubscriptionRepository extends Repository
 
         if (0 < count($lookupPageIds)) {
             $defaultPageIds = $query->getQuerySettings()->getStoragePageIds();
-            $combinedPageIds = GeneralUtility::array_merge($defaultPageIds, $lookupPageIds);
+            $combinedPageIds = $lookupPageIds + $defaultPageIds;
             $query->getQuerySettings()->setStoragePageIds($combinedPageIds);
         }
 
