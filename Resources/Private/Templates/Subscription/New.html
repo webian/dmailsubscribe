@@ -8,7 +8,7 @@
 
     <f:flashMessages/>
 
-    <f:form method="post" action="subscribe" name="subscription" object="{subscription}">
+    <f:form method="post" action="subscribe" name="subscription" object="{subscription}" class="form-horizontal">
         <f:if condition="{additionalFields.gender}">
             <div class="form-row">
                 <div class="form-label">
@@ -24,21 +24,21 @@
         </f:if>
 
         <f:if condition="{additionalFields.name}">
-            <div class="form-row">
+            <div class="form-row form-group form-group-name">
                 <div class="form-label">
-                    <label for="name">
+                    <label class="col-sm-3 control-label" for="name">
                         <f:translate key="label.name"/>
-                        {f:if(condition: '{requiredFields.name}', then: '*')}
+                        {f:if(condition: '{requiredFields.name}', then: '<sup>*</sup>')}
                     </label>
                 </div>
-                <div class="form-field">
-                    <f:form.textfield id="name" property="name"/>
+                <div class="form-field col-sm-9">
+                    <f:form.textfield id="name" property="name" class="form-control"/>
+                    <f:form.validationResults for="subscription.name">
+                        <f:for each="{validationResults.flattenedErrors}" as="error">
+                            <div class="form-error help-block">{error.0.message}</div>
+                        </f:for>
+                    </f:form.validationResults>
                 </div>
-                <f:form.validationResults for="subscription.name">
-                    <f:for each="{validationResults.flattenedErrors}" as="error">
-                        <div class="form-error">{error.0.message}</div>
-                    </f:for>
-                </f:form.validationResults>
             </div>
         </f:if>
 
@@ -99,18 +99,16 @@
             </div>
         </f:if>
 
-        <div class="form-row">
-            <div class="form-label">
-                <label for="email">{f:translate(key: 'label.email')} *</label>
+        <div class="form-row form-group form-group-email">
+            <label class="col-sm-3 control-label" for="email">{f:translate(key: 'label.email')} <sup>*</sup></label>
+            <div class="form-field col-sm-9">
+                <f:form.textfield id="email" property="email" class="form-control"/>
+                <f:form.validationResults for="subscription.email">
+                    <f:for each="{validationResults.flattenedErrors}" as="error">
+                        <div class="error help-block">{error.0.message}</div>
+                    </f:for>
+                </f:form.validationResults>
             </div>
-            <div class="form-field">
-                <f:form.textfield id="email" property="email"/>
-            </div>
-            <f:form.validationResults for="subscription.email">
-                <f:for each="{validationResults.flattenedErrors}" as="error">
-                    <div class="error">{error.0.message}</div>
-                </f:for>
-            </f:form.validationResults>
         </div>
 
         <f:if condition="{additionalFields.receiveHtml}">
@@ -147,13 +145,11 @@
             </f:if>
         </f:if>
 
-        <f:form.submit name="submit" value="{f:translate(key: 'label.subscribe')}"/>
-
-        <p>
-            <f:link.action pageUid="{unsubscribePageUid}" action="unsubscribeform">
-                <f:translate key="label.unsubscribe"/>
-            </f:link.action>
-        </p>
+        <div class="form-group form-group-submit">
+            <div class="col-sm-9 col-sm-offset-3 text-right">
+                <f:form.button name="submit" value="{f:translate(key: 'label.subscribe')}" class="btn btn-primary">{f:translate(key: 'label.subscribe')}</f:form.button>
+            </div>
+        </div>
     </f:form>
 </f:section>
 </html>
