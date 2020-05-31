@@ -101,6 +101,6 @@ abstract class AbstractLinkViewHelper extends ActionViewHelper
             'confirmationCode' => $this->arguments['confirmationCode'],
         ];
 
-        return parent::render($this->action, $arguments, 'Subscription', null, null, $pluginPageUid, 0, false, true, '', '', false, [], true);
+        return parent::render($this->action, $arguments, 'Subscription', null, null, $pluginPageUid, 0, false, false, '', '', false, [], true);
     }
 }
