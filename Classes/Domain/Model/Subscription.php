@@ -87,6 +87,12 @@ class Subscription extends AbstractEntity
      */
     protected $hidden;
 
+    /**
+     * @var string
+     * @validate(validator="\SJBR\SrFreecap\Validation\Validator\CaptchaValidator")
+     */
+    protected $captchaResponse;
+
     public function __construct()
     {
         $this->categories = new ObjectStorage();
@@ -248,5 +254,24 @@ class Subscription extends AbstractEntity
     public function setHidden($hidden)
     {
         $this->hidden = (boolean)$hidden;
+    }
+
+    /**
+     * Sets the captchaResponse
+     *
+     * @param string $captchaResponse
+     * @return void
+     */
+    public function setCaptchaResponse($captchaResponse) {
+        $this->captchaResponse = $captchaResponse;
+    }
+
+    /**
+     * Getter for captchaResponse
+     *
+     * @return string
+     */
+    public function getCaptchaResponse() {
+        return $this->captchaResponse;
     }
 }
