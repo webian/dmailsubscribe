@@ -29,7 +29,7 @@
                 <div class="form-label">
                     <label class="col-sm-3 control-label" for="name">
                         <f:translate key="label.name"/>
-                        {f:if(condition: '{requiredFields.name}', then: '<sup>*</sup>')}
+                        {f:if(condition: '{requiredFields.name}', then: '<span>*</span>')}
                     </label>
                 </div>
                 <div class="form-field col-sm-9">
@@ -101,7 +101,7 @@
         </f:if>
 
         <div class="form-row form-group form-group-email">
-            <label class="col-sm-3 control-label" for="email">{f:translate(key: 'label.email')} <sup>*</sup></label>
+            <label class="col-sm-3 control-label" for="email">{f:translate(key: 'label.email')} <span>*</span></label>
             <div class="form-field col-sm-9">
                 <f:form.textfield id="email" property="email" class="form-control"/>
                 <f:form.validationResults for="subscription.email">
